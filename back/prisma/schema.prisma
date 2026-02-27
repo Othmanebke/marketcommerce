@@ -1,0 +1,48 @@
+// Prisma schema
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  tagline     String
+  description String
+  specs       String[]
+  categories  String[]
+  tags        String[]
+  colorPalette String[]
+  variants    Json
+  images      String[]
+  crossSell   String[]
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  password     String
+  name         String
+  addresses    String[]
+  wishlist     String[]
+  orders       String[]
+  notifications Json
+}
+
+model Order {
+  id        String   @id @default(uuid())
+  userId    String
+  products  Json
+  status    String
+  total     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Article {
+  id             String   @id @default(uuid())
+  slug           String   @unique
+  title          String
+  chapo          String
+  author         String
+  date           DateTime
+  sections       Json
+  pullQuotes     String[]
+  images         String[]
+  relatedProducts String[]
+}
