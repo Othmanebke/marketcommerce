@@ -6,7 +6,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -14,7 +14,8 @@
     "incremental": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "baseUrl": ".",
+    // "baseUrl": ".", // option dépréciée, retirée pour TS 7
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@/*": ["./*"]
     }
