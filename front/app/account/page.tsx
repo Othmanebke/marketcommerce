@@ -1,3 +1,4 @@
+import React from "react";
 // Account dashboard
 export default function AccountPage() {
   return (

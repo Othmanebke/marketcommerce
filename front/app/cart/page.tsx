@@ -1,3 +1,4 @@
+import React from "react";
 // Cart page
 export default function CartPage() {
   return (

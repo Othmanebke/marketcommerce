@@ -1,3 +1,4 @@
+import React from "react";
 // Admin dashboard
 export default function AdminPage() {
   return (

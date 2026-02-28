@@ -1,3 +1,4 @@
+import React from "react";
 // Terms & Conditions page
 export default function TermsPage() {
   return (

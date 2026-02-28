@@ -1,3 +1,4 @@
+import React from "react";
 // Login page
 export default function LoginPage() {
   return (

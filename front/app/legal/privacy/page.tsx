@@ -1,3 +1,4 @@
+import React from "react";
 // Privacy Policy page
 export default function PrivacyPage() {
   return (

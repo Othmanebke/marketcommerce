@@ -1,3 +1,4 @@
+import React from "react";
 // Checkout page
 export default function CheckoutPage() {
   return (
