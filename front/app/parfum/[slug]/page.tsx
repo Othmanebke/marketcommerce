@@ -1,11 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, use } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import Button from '@/components/ui/Button'
-import GlassCard from '@/components/ui/GlassCard'
 import Chip from '@/components/ui/Chip'
 import DividerGoldHairline from '@/components/ui/Divider'
 import Accordion from '@/components/ui/Accordion'
@@ -47,7 +45,7 @@ const MOCK_PRODUCTS: Record<string, ProductDetail> = {
     name: 'Noir Velours',
     concentration: 'Extrait de Parfum',
     descriptionEditorial:
-      'Un accord résineux et fumé, bâti autour de la résine de benjoin et du vétiver fumé. Une présence sobre, profonde, qui s'installe sans chercher à convaincre.',
+      "Un accord résineux et fumé, bâti autour de la résine de benjoin et du vétiver fumé. Une présence sobre, profonde, qui s'installe sans chercher à convaincre.",
     family: 'boisé',
     intensity: 5, tenue: 5, sillage: 4,
     seasons: ['hiver', 'mi-saison'],
@@ -80,7 +78,7 @@ const MOCK_PRODUCTS: Record<string, ProductDetail> = {
     name: 'Bleu Minéral',
     concentration: 'Eau de Parfum',
     descriptionEditorial:
-      'Bergamote de Calabre, musc blanc et cèdre de l'Atlas. Une composition franche, sans surcharge. La propreté d'une peau bien habitée.',
+      "Bergamote de Calabre, musc blanc et cèdre de l'Atlas. Une composition franche, sans surcharge. La propreté d'une peau bien habitée.",
     family: 'hespéridé',
     intensity: 3, tenue: 4, sillage: 3,
     seasons: ['été', 'mi-saison'],
@@ -128,7 +126,7 @@ const ACCORDION_ITEMS = [
   {
     id: 'retours',
     label: 'Retours',
-    content: 'Retour accepté sous 14 jours après réception. Produit intact, emballage d'origine. Remboursement sous 5 jours ouvrés.',
+    content: "Retour accepté sous 14 jours après réception. Produit intact, emballage d'origine. Remboursement sous 5 jours ouvrés.",
   },
   {
     id: 'rituel',
@@ -161,8 +159,9 @@ function PyramidRow({ label, notes }: { label: string; notes: Note[] }) {
 }
 
 // ── Main page ──
-export default function PDPPage({ params }: { params: { slug: string } }) {
-  const product = MOCK_PRODUCTS[params.slug]
+export default function PDPPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params)
+  const product = MOCK_PRODUCTS[slug]
   if (!product) notFound()
 
   const [selectedVariant, setSelectedVariant] = useState<Variant>(product.variants[0])

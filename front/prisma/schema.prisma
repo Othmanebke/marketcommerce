@@ -1,0 +1,332 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────
+// CATALOGUE
+// ─────────────────────────────────────────
+
+model Product {
+  id                   String        @id @default(cuid())
+  name                 String
+  slug                 String        @unique
+  descriptionEditorial String
+  family               String        // boisé | ambré | floral | hespéridé | musqué | gourmand
+  concentration        String        // EDT | EDP | Extrait
+  intensity            Int           // 1–5
+  tenue                Int           // 1–5
+  sillage              Int           // 1–5
+  seasons              String[]      // été | hiver | mi-saison | toute-saison
+  moments              String[]      // jour | bureau | soirée | rendez-vous
+  badges               String[]      // Nouveau | Atelier | Édition limitée
+  status               ProductStatus @default(DRAFT)
+  seoTitle             String?
+  seoDesc              String?
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  variants     Variant[]
+  media        Media[]
+  productNotes ProductNote[]
+  productVibes ProductVibe[]
+
+  @@index([family])
+  @@index([status])
+  @@index([intensity])
+  @@index([tenue])
+  @@index([sillage])
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+model Variant {
+  id         String      @id @default(cuid())
+  productId  String
+  volumeMl   Int
+  sku        String      @unique
+  priceCents Int
+  stockQty   Int         @default(0)
+  product    Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+
+  @@unique([productId, volumeMl])
+  @@index([productId])
+}
+
+model Media {
+  id        String    @id @default(cuid())
+  productId String
+  url       String
+  alt       String    @default("")
+  sortOrder Int       @default(0)
+  type      MediaType @default(IMAGE)
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId, sortOrder])
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+// ─────────────────────────────────────────
+// NOTES OLFACTIVES
+// ─────────────────────────────────────────
+
+model Note {
+  id           String        @id @default(cuid())
+  name         String        @unique
+  productNotes ProductNote[]
+}
+
+model ProductNote {
+  productId String
+  noteId    String
+  type      NoteType
+  weight    Int      @default(3) // 1–5
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  note    Note    @relation(fields: [noteId], references: [id])
+
+  @@id([productId, noteId, type])
+  @@index([productId])
+  @@index([noteId])
+}
+
+enum NoteType {
+  TOP
+  HEART
+  BASE
+}
+
+// ─────────────────────────────────────────
+// VIBES
+// ─────────────────────────────────────────
+
+model Vibe {
+  id           String        @id @default(cuid())
+  label        String        @unique
+  description  String
+  productVibes ProductVibe[]
+}
+
+model ProductVibe {
+  productId String
+  vibeId    String
+  weight    Int     @default(3) // 1–5
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  vibe    Vibe    @relation(fields: [vibeId], references: [id])
+
+  @@id([productId, vibeId])
+  @@index([productId])
+  @@index([vibeId])
+}
+
+// ─────────────────────────────────────────
+// EDITORIAL
+// ─────────────────────────────────────────
+
+model EditorialPost {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  content     String
+  coverUrl    String
+  excerpt     String?
+  tags        String[]
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([publishedAt])
+}
+
+// ─────────────────────────────────────────
+// PANIER
+// ─────────────────────────────────────────
+
+model Cart {
+  id        String     @id @default(cuid())
+  sessionId String     @unique
+  userId    String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  items     CartItem[]
+}
+
+model CartItem {
+  id        String  @id @default(cuid())
+  cartId    String
+  variantId String
+  qty       Int     @default(1)
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  variant   Variant @relation(fields: [variantId], references: [id])
+
+  @@unique([cartId, variantId])
+}
+
+// ─────────────────────────────────────────
+// COMMANDES
+// ─────────────────────────────────────────
+
+model Order {
+  id                      String      @id @default(cuid())
+  email                   String
+  totalCents              Int
+  currency                String      @default("EUR")
+  status                  OrderStatus @default(PENDING)
+  stripeCheckoutSessionId String?     @unique
+  shippingAddressJson     Json?
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
+  items                   OrderItem[]
+  payment                 Payment?
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+model OrderItem {
+  id             String  @id @default(cuid())
+  orderId        String
+  variantId      String
+  qty            Int
+  unitPriceCents Int
+  order          Order   @relation(fields: [orderId], references: [id])
+  variant        Variant @relation(fields: [variantId], references: [id])
+
+  @@index([orderId])
+}
+
+model Payment {
+  id                    String        @id @default(cuid())
+  orderId               String        @unique
+  stripePaymentIntentId String?       @unique
+  status                PaymentStatus @default(PENDING)
+  createdAt             DateTime      @default(now())
+  order                 Order         @relation(fields: [orderId], references: [id])
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+}
+
+// ─────────────────────────────────────────
+// CONTACT
+// ─────────────────────────────────────────
+
+model ContactTicket {
+  id            String       @id @default(cuid())
+  email         String
+  subject       String
+  message       String
+  orderRef      String?
+  status        TicketStatus @default(OPEN)
+  referenceCode String       @unique @default(cuid())
+  createdAt     DateTime     @default(now())
+
+  @@index([email])
+  @@index([status])
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  CLOSED
+}
+
+// ─────────────────────────────────────────
+// CHAT + RECOMMANDATIONS
+// ─────────────────────────────────────────
+
+model ChatSession {
+  id        String      @id @default(cuid())
+  userId    String?
+  locale    String      @default("fr-FR")
+  mode      ChatMode    @default(FULL)
+  productId String?
+  startedAt DateTime    @default(now())
+  endedAt   DateTime?
+  messages  ChatMessage[]
+  recoLogs  RecommendationLog[]
+
+  @@index([startedAt])
+}
+
+enum ChatMode {
+  FULL
+  CONTEXTUAL
+}
+
+model ChatMessage {
+  id        String      @id @default(cuid())
+  sessionId String
+  role      MessageRole
+  content   String
+  stepKey   String?
+  chipsJson Json?
+  createdAt DateTime    @default(now())
+  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+}
+
+model RecommendationLog {
+  id                      String      @id @default(cuid())
+  sessionId               String
+  profileJson             Json
+  recommendedProductsJson Json
+  chosenProductId         String?
+  createdAt               DateTime    @default(now())
+  session                 ChatSession @relation(fields: [sessionId], references: [id])
+
+  @@index([sessionId])
+  @@index([createdAt])
+}
+
+// ─────────────────────────────────────────
+// ANALYTICS
+// ─────────────────────────────────────────
+
+model AnalyticsEvent {
+  id         String   @id @default(cuid())
+  name       String
+  properties Json
+  sessionId  String?
+  userId     String?
+  createdAt  DateTime @default(now())
+
+  @@index([name, createdAt])
+}

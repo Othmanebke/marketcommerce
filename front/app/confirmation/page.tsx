@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Button from '@/components/ui/Button'
 import GlassCard from '@/components/ui/GlassCard'
 import DividerGoldHairline from '@/components/ui/Divider'
 
@@ -9,13 +8,14 @@ export const metadata: Metadata = {
   robots: 'noindex',
 }
 
-export default function ConfirmationPage({
+export default async function ConfirmationPage({
   searchParams,
 }: {
-  searchParams: { session_id?: string }
+  searchParams: Promise<{ session_id?: string }>
 }) {
-  const ref = searchParams.session_id
-    ? `MN-${searchParams.session_id.slice(-6).toUpperCase()}`
+  const { session_id } = await searchParams
+  const ref = session_id
+    ? `MN-${session_id.slice(-6).toUpperCase()}`
     : 'MN-XXXXXX'
 
   return (
@@ -53,12 +53,18 @@ export default function ConfirmationPage({
         <DividerGoldHairline className="mb-8" />
 
         <div className="flex flex-col gap-3">
-          <Button variant="primary" as={Link} href="/collection">
-            Continuer l'exploration
-          </Button>
-          <Button variant="secondary" as={Link} href="/journal">
+          <Link
+            href="/collection"
+            className="inline-flex items-center justify-center gap-2 rounded-btn font-sans tracking-wide transition-all duration-micro ease-luxury cursor-pointer px-6 py-3 text-ui bg-gold-100 text-ink-950 font-medium hover:-translate-y-px hover:shadow-[0_4px_24px_rgba(214,181,109,0.35)]"
+          >
+            {"Continuer l'exploration"}
+          </Link>
+          <Link
+            href="/journal"
+            className="inline-flex items-center justify-center gap-2 rounded-btn font-sans tracking-wide transition-all duration-micro ease-luxury cursor-pointer px-6 py-3 text-ui bg-glass-06 backdrop-blur-soft border border-stroke-12 text-paper-50 hover:-translate-y-px hover:bg-glass-10 hover:border-stroke-18"
+          >
             Lire le Journal →
-          </Button>
+          </Link>
         </div>
       </div>
     </div>

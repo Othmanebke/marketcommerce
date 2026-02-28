@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import Button from '@/components/ui/Button'
 import GlassCard from '@/components/ui/GlassCard'
 import DividerGoldHairline from '@/components/ui/Divider'
 import ProductCard, { type ProductCardData } from '@/components/commerce/ProductCard'
+import NewsletterForm from '@/components/marketing/NewsletterForm'
 
 export const metadata: Metadata = {
   title: 'Maison — Parfumerie de création',
@@ -103,20 +103,20 @@ const JOURNAL_POSTS = [
   {
     slug: 'le-role-du-fond',
     title: 'Le rôle des notes de fond',
-    excerpt: 'Comment le vétiver, l'ambre et la résine construisent la persistance d'un accord.',
+    excerpt: "Comment le vétiver, l'ambre et la résine construisent la persistance d'un accord.",
     tag: 'Matières',
     image: 'https://images.unsplash.com/photo-1596091831165-10b9c5ef7c46?w=800&q=80',
   },
   {
     slug: 'concentration-extrait',
-    title: 'Pourquoi l'Extrait',
+    title: "Pourquoi l'Extrait",
     excerpt: 'La concentration maximale : moins de surface, plus de durée, plus de présence.',
     tag: 'Atelier',
     image: 'https://images.unsplash.com/photo-1607026246836-d3c0bc2e55fa?w=800&q=80',
   },
   {
     slug: 'rituel-application',
-    title: 'Le rituel d'application',
+    title: "Le rituel d'application",
     excerpt: 'Points de chaleur, superposition, moment : les gestes qui font durer.',
     tag: 'Rituels',
     image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=800&q=80',
@@ -167,12 +167,18 @@ export default function HomePage() {
               une tenue pensée pour durer.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Button variant="primary" size="md" as={Link} href="/collection">
+              <Link
+                href="/collection"
+                className="inline-flex items-center justify-center gap-2 rounded-btn font-sans tracking-wide transition-all duration-micro ease-luxury cursor-pointer px-6 py-3 text-ui bg-gold-100 text-ink-950 font-medium hover:-translate-y-px hover:shadow-[0_4px_24px_rgba(214,181,109,0.35)] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[rgba(214,181,109,0.6)]"
+              >
                 Découvrir la collection
-              </Button>
-              <Button variant="secondary" size="md">
+              </Link>
+              <Link
+                href="/collection#conseiller"
+                className="inline-flex items-center justify-center gap-2 rounded-btn font-sans tracking-wide transition-all duration-micro ease-luxury cursor-pointer px-6 py-3 text-ui bg-glass-06 backdrop-blur-soft border border-stroke-12 text-paper-50 hover:-translate-y-px hover:bg-glass-10 hover:border-stroke-18 focus-visible:outline focus-visible:outline-1 focus-visible:outline-[rgba(214,181,109,0.6)]"
+              >
                 Trouver mon parfum
-              </Button>
+              </Link>
             </div>
           </div>
 
@@ -297,9 +303,12 @@ export default function HomePage() {
           </div>
 
           <div className="mt-8 flex justify-center md:hidden">
-            <Button variant="secondary" as={Link} href="/collection">
+            <Link
+              href="/collection"
+              className="inline-flex items-center justify-center gap-2 rounded-btn font-sans tracking-wide transition-all duration-micro ease-luxury cursor-pointer px-6 py-3 text-ui bg-glass-06 backdrop-blur-soft border border-stroke-12 text-paper-50 hover:-translate-y-px hover:bg-glass-10 hover:border-stroke-18 focus-visible:outline focus-visible:outline-1 focus-visible:outline-[rgba(214,181,109,0.6)]"
+            >
               Voir toute la collection
-            </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -447,30 +456,7 @@ export default function HomePage() {
               Pas de bruit. Uniquement l'essentiel.
             </p>
 
-            <form
-              onSubmit={e => e.preventDefault()}
-              className="flex flex-col sm:flex-row gap-3 mb-4"
-            >
-              <label htmlFor="newsletter-email" className="sr-only">
-                Votre adresse email
-              </label>
-              <input
-                id="newsletter-email"
-                type="email"
-                required
-                placeholder="votre@email.com"
-                className="
-                  flex-1 px-4 py-3 rounded-btn
-                  bg-glass-06 border border-stroke-12 text-paper-50
-                  placeholder:text-paper-50/30
-                  focus:outline-none focus:border-[rgba(214,181,109,0.6)]
-                  text-ui
-                "
-              />
-              <Button variant="primary" type="submit">
-                Rejoindre
-              </Button>
-            </form>
+            <NewsletterForm />
 
             <p className="text-caption text-paper-50/30">
               En rejoignant, vous acceptez notre{' '}
