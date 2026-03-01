@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const navLinks = [
   { href: '/collection', label: 'Collection' },
@@ -35,7 +36,10 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
 
   return (
     <>
-      <header
+      <motion.header
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         role="banner"
         className={`
           fixed top-0 left-0 right-0 z-50
@@ -145,42 +149,49 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
             </button>
           </div>
         </nav>
-      </header>
+      </motion.header>
 
       {/* Mobile menu */}
-      <div
-        id="mobile-menu"
-        role="dialog"
-        aria-label="Menu de navigation"
-        aria-modal="true"
-        hidden={!menuOpen}
-        className={`
-          fixed inset-0 z-40 md:hidden
-          glass-med flex flex-col
-          transition-all duration-modal ease-luxury
-          ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
-        `}
-      >
-        <div className="h-16" aria-hidden="true" />
-        <nav className="flex flex-col gap-1 p-6">
-          {navLinks.map(link => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className="
-                py-4 px-4 rounded-card
-                font-serif text-heading-sm text-paper-50
-                hover:bg-glass-08 hover:text-gold-100
-                transition-all duration-micro ease-luxury
-                border-b border-stroke-12
-              "
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-      </div>
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            id="mobile-menu"
+            role="dialog"
+            aria-label="Menu de navigation"
+            aria-modal="true"
+            className="fixed inset-0 z-40 md:hidden glass-med flex flex-col pt-16"
+          >
+            <nav className="flex flex-col gap-1 p-6">
+              {navLinks.map((link, i) => (
+                <motion.div
+                  key={link.href}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: i * 0.1, ease: 'easeOut' }}
+                >
+                  <Link
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="
+                      block py-4 px-4 rounded-card
+                      font-serif text-heading-sm text-paper-50
+                      hover:bg-glass-08 hover:text-gold-100
+                      transition-all duration-micro ease-luxury
+                      border-b border-stroke-12
+                    "
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }

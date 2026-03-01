@@ -5,6 +5,9 @@ import GlassCard from '@/components/ui/GlassCard'
 import DividerGoldHairline from '@/components/ui/Divider'
 import ProductCard, { type ProductCardData } from '@/components/commerce/ProductCard'
 import NewsletterForm from '@/components/marketing/NewsletterForm'
+import { HeroSection } from '@/components/marketing/HeroSection'
+import { ScrollReveal } from '@/components/ui/ScrollReveal'
+import { MarqueeStrip } from '@/components/ui/MarqueeStrip'
 
 export const metadata: Metadata = {
   title: 'Maison — Parfumerie de création',
@@ -127,63 +130,29 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO ── */}
-      <section
-        aria-label="Présentation Maison"
-        className="relative h-screen min-h-[600px] flex items-end pb-16 overflow-hidden"
+      <HeroSection 
+        title="Une signature. Un sillage. Une présence." 
+        subtitle="Des matières choisies, une composition précise, une tenue pensée pour durer." 
+        backgroundImage="https://images.unsplash.com/photo-1557053910-d9eadeed1c58?w=1920&q=85"
       >
-        {/* Background image */}
-        <Image
-          src="https://images.unsplash.com/photo-1557053910-d9eadeed1c58?w=1920&q=85"
-          alt=""
-          aria-hidden="true"
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
-
-        {/* Vignette */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/60 to-transparent"
-        />
-
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col md:flex-row items-end justify-between gap-8">
-          {/* Text block */}
-          <div className="max-w-xl animate-fade-up">
-            <p className="text-caption text-gold-100 uppercase tracking-[0.2em] mb-4">
-              Maison · Parfumerie
-            </p>
-            <h1 className="font-serif text-display-sm md:text-display-lg text-paper-50 mb-4">
-              Une signature.
-              <br />
-              Un sillage.
-              <br />
-              Une présence.
-            </h1>
-            <p className="text-ui text-paper-50/60 mb-8 max-w-md leading-relaxed">
-              Des matières choisies, une composition précise,
-              une tenue pensée pour durer.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/collection"
-                className="inline-flex items-center justify-center gap-2 rounded-btn font-sans tracking-wide transition-all duration-micro ease-luxury cursor-pointer px-6 py-3 text-ui bg-gold-100 text-ink-950 font-medium hover:-translate-y-px hover:shadow-[0_4px_24px_rgba(214,181,109,0.35)] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[rgba(214,181,109,0.6)]"
-              >
-                Découvrir la collection
-              </Link>
-              <Link
-                href="/collection#conseiller"
-                className="inline-flex items-center justify-center gap-2 rounded-btn font-sans tracking-wide transition-all duration-micro ease-luxury cursor-pointer px-6 py-3 text-ui bg-glass-06 backdrop-blur-soft border border-stroke-12 text-paper-50 hover:-translate-y-px hover:bg-glass-10 hover:border-stroke-18 focus-visible:outline focus-visible:outline-1 focus-visible:outline-[rgba(214,181,109,0.6)]"
-              >
-                Trouver mon parfum
-              </Link>
-            </div>
+        <div className="flex flex-col md:flex-row items-center justify-center gap-8 w-full">
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link
+              href="/collection"
+              className="inline-flex items-center justify-center gap-2 rounded-btn font-sans tracking-wide transition-all duration-micro ease-luxury cursor-pointer px-6 py-3 text-ui bg-gold-100 text-ink-950 font-medium hover:-translate-y-px hover:shadow-[0_4px_24px_rgba(214,181,109,0.35)] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[rgba(214,181,109,0.6)]"
+            >
+              Découvrir la collection
+            </Link>
+            <Link
+              href="/collection#conseiller"
+              className="inline-flex items-center justify-center gap-2 rounded-btn font-sans tracking-wide transition-all duration-micro ease-luxury cursor-pointer px-6 py-3 text-ui bg-glass-06 backdrop-blur-soft border border-stroke-12 text-paper-50 hover:-translate-y-px hover:bg-glass-10 hover:border-stroke-18 focus-visible:outline focus-visible:outline-1 focus-visible:outline-[rgba(214,181,109,0.6)]"
+            >
+              Trouver mon parfum
+            </Link>
           </div>
 
           {/* Spotlight Card */}
-          <GlassCard className="p-5 w-full md:w-72 shrink-0 animate-fade-up" style={{ animationDelay: '100ms' }}>
+          <GlassCard className="p-5 w-full md:w-72 shrink-0 text-left bg-glass-06 shadow-2xl">
             <p className="text-caption text-gold-100 uppercase tracking-widest mb-3">
               Création du moment
             </p>
@@ -213,10 +182,19 @@ export default function HomePage() {
             </Link>
           </GlassCard>
         </div>
-      </section>
+      </HeroSection>
+
+      <MarqueeStrip speed="normal" className="py-6 border-y border-stroke-12 bg-ink-900 overflow-hidden">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <span key={i} className="text-paper-50/60 text-ui uppercase tracking-widest px-8">
+            • Extrait de Parfum • Livraison offerte • Retours 14 j • Échantillon inclus
+          </span>
+        ))}
+      </MarqueeStrip>
 
       {/* ── UNIVERS ── */}
-      <section aria-label="Univers olfactifs" className="py-24 px-6">
+      <ScrollReveal>
+        <section aria-label="Univers olfactifs" className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {UNIVERS.map(u => (
@@ -249,8 +227,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </ScrollReveal>
 
       {/* ── MANIFESTE ── */}
+      <ScrollReveal type="fade-up" duration={1} delay={0.2}>
       <section aria-label="Manifeste" className="py-16 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <DividerGoldHairline label="Maison" className="mb-12" />
@@ -271,8 +251,10 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+      </ScrollReveal>
 
       {/* ── BEST-SELLERS ── */}
+      <ScrollReveal type="fade-up" duration={0.8}>
       <section aria-label="Sélection" className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-10">
@@ -312,8 +294,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </ScrollReveal>
 
       {/* ── SAVOIR-FAIRE ── */}
+      <ScrollReveal type="scale-up" duration={0.8} delay={0.1}>
       <section aria-label="Savoir-faire" className="py-16 px-6">
         <div className="max-w-7xl mx-auto">
           <DividerGoldHairline label="Savoir-faire" className="mb-12" />
@@ -334,8 +318,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </ScrollReveal>
 
       {/* ── JOURNAL ── */}
+      <ScrollReveal type="fade-in" duration={1}>
       <section aria-label="Journal" className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-10">
@@ -393,8 +379,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </ScrollReveal>
 
       {/* ── SERVICES ── */}
+      <ScrollReveal type="fade-up" duration={0.8}>
       <section aria-label="Services" className="py-16 px-6">
         <div className="max-w-7xl mx-auto">
           <DividerGoldHairline className="mb-12" />
@@ -441,8 +429,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </ScrollReveal>
 
       {/* ── NEWSLETTER VIP ── */}
+      <ScrollReveal type="scale-up" duration={0.8}>
       <section aria-label="Newsletter" className="py-24 px-6">
         <div className="max-w-lg mx-auto">
           <GlassCard className="p-8 md:p-10 text-center">
@@ -468,6 +458,7 @@ export default function HomePage() {
           </GlassCard>
         </div>
       </section>
+      </ScrollReveal>
     </>
   )
 }

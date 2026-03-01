@@ -1,8 +1,10 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Chip from '@/components/ui/Chip'
 import DividerGoldHairline from '@/components/ui/Divider'
+import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import ProductCard, { type ProductCardData } from '@/components/commerce/ProductCard'
 import { SkeletonProductGrid } from '@/components/ui/Skeleton'
 import Button from '@/components/ui/Button'
@@ -148,6 +150,7 @@ export default function CollectionPage() {
     <div className="min-h-screen">
 
       {/* ── Page header ── */}
+      <ScrollReveal>
       <div className="px-6 pt-16 pb-10 max-w-7xl mx-auto">
         <p className="text-caption text-gold-100 uppercase tracking-widest mb-2">
           Catalogue
@@ -159,6 +162,7 @@ export default function CollectionPage() {
           Filtrer par humeur, matières, tenue.
         </p>
       </div>
+      </ScrollReveal>
 
       {/* ── Sticky Filter Bar ── */}
       <div
@@ -320,7 +324,11 @@ export default function CollectionPage() {
 
         {/* Grid / Empty */}
         {filtered.length === 0 ? (
-          <div className="py-32 text-center animate-fade-up">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="py-32 text-center"
+          >
             <p className="font-serif text-heading-sm text-paper-50/30 mb-3">
               Aucune création ne correspond.
             </p>
@@ -330,13 +338,27 @@ export default function CollectionPage() {
             <Button variant="secondary" onClick={() => setFilters(EMPTY_FILTERS)}>
               Réinitialiser les filtres
             </Button>
-          </div>
+          </motion.div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-            {filtered.map((product, i) => (
-              <ProductCard key={product.slug} product={product} priority={i < 4} />
-            ))}
-          </div>
+          <motion.div 
+            layout
+            className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6"
+          >
+            <AnimatePresence>
+              {filtered.map((product, i) => (
+                <motion.div
+                  key={product.slug}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                  transition={{ duration: 0.4, delay: Math.min(i * 0.05, 0.4), ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <ProductCard product={product} priority={i < 4} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         )}
       </div>
     </div>

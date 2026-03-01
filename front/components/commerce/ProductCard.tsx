@@ -48,16 +48,14 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
       href={`/parfum/${product.slug}`}
       hover={false}
       className="
-        block group
-        hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)]
-        transition-all duration-reveal ease-luxury
+        block group hover-lift
         overflow-hidden
       "
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       {/* Image */}
-      <div className="relative aspect-[3/4] overflow-hidden bg-ink-800">
+      <div className="relative aspect-[3/4] overflow-hidden bg-ink-800 shine-on-hover">
         <Image
           src={product.heroImageUrl}
           alt={product.name}
