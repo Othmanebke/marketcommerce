@@ -82,3 +82,11 @@ export default function MaisonPage() {
               </p>
               <p className="text-lg font-light text-paper-50/70 leading-relaxed">
                 L'embouteillage, l'étiquetage et le sertissage sont réalisés à la main dans notre atelier, faisant de chaque flacon une pièce unique.
+              </p>
+            </div>
+          </div>
+        </ScrollReveal>
+      </section>
+    </div>
+  )
+}

@@ -396,10 +396,10 @@ export default function PDPPage({ params }: { params: Promise<{ slug: string }> 
               {product.similar.map(p => (
                 <div key={p.slug} className="group cursor-pointer">
                   <div className="relative aspect-[3/4] overflow-hidden bg-ink-900 border border-stroke-12 mb-3">
-                    <Image src={p.media[0].url} alt={p.media[0].alt} fill className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105" sizes="33vw" />
+                    <Image src={p.heroImageUrl} alt={p.name} fill className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105" sizes="33vw" />
                   </div>
                   <p className="font-serif text-lg text-paper-50 group-hover:text-gold-100 transition-colors">{p.name}</p>
-                  <p className="text-xs text-paper-50/50 uppercase tracking-widest mt-1">{p.family}</p>
+                  <p className="text-xs text-paper-50/50 uppercase tracking-widest mt-1">{p.concentration}</p>
                 </div>
               ))}
             </div>

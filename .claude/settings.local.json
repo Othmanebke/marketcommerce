@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /dev/null -w \"home: %{http_code}\\\\n\" http://localhost:3008/)",
+      "Bash(curl -s -o /dev/null -w \"collection: %{http_code}\\\\n\" http://localhost:3008/collection)",
+      "Bash(curl -s -o /dev/null -w \"panier: %{http_code}\\\\n\" http://localhost:3008/panier)",
+      "Bash(curl -s -o /dev/null -w \"parfum: %{http_code}\\\\n\" http://localhost:3008/parfum/noir-velours)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://localhost:3008/parfum/bleu-mineral\")",
+      "Bash(curl -s -I \"http://localhost:3008/parfum/noir-velours\")",
+      "Bash(curl -s -o /dev/null -w \"parfum/noir-velours: %{http_code}\\\\n\" http://localhost:3008/parfum/noir-velours)",
+      "Bash(curl -s -o /dev/null -w \"parfum/bleu-mineral: %{http_code}\\\\n\" http://localhost:3008/parfum/bleu-mineral)",
+      "Bash(curl -s \"http://localhost:3008/api/chat/session\" -X POST -H \"Content-Type: application/json\" -d '{\"\"mode\"\":\"\"FULL\"\"}')"
+    ]
+  }
+}

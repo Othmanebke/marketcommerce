@@ -71,7 +71,7 @@ export default function HomePage() {
               <span className="text-paper-50/50 italic mr-2">il est fait pour</span> 
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-gold-100 to-amber-200 shadow-gold-100">révéler.</span> »
             </h2>
-            <p className="text-ui text-paper-50/60 max-w-2xl mx-auto leading-relaxed text-lg">
+            <p className="text-paper-50/60 max-w-2xl mx-auto leading-relaxed text-lg">
               Loin des productions de masse, nous assemblons à la main des absolues rares et des essences précieuses. 
               Chaque goutte est une promesse d'intensité, un voile de mystère qui vous habille bien après votre départ.
             </p>
