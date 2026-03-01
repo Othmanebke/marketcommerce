@@ -6,11 +6,12 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 interface HeroSectionProps {
   title: string;
   subtitle: string;
-  backgroundImage: string;
+  backgroundImage?: string;
+  videoUrl?: string; // Add video support
   children?: React.ReactNode;
 }
 
-export function HeroSection({ title, subtitle, backgroundImage, children }: HeroSectionProps) {
+export function HeroSection({ title, subtitle, backgroundImage, videoUrl, children }: HeroSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -50,11 +51,27 @@ export function HeroSection({ title, subtitle, backgroundImage, children }: Hero
         className="absolute inset-0 z-0"
         style={{
           y: backgroundY,
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
         }}
       >
+        {videoUrl ? (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+            src={videoUrl}
+          />
+        ) : (
+          <div 
+             className="w-full h-full"
+             style={{
+               backgroundImage: `url(${backgroundImage})`,
+               backgroundPosition: 'center',
+               backgroundSize: 'cover',
+             }}
+          />
+        )}
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-ink-950/50 bg-gradient-to-t from-ink-950 via-ink-950/60 to-transparent" />
       </motion.div>

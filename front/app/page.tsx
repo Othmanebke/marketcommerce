@@ -2,463 +2,217 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import GlassCard from '@/components/ui/GlassCard'
-import DividerGoldHairline from '@/components/ui/Divider'
 import ProductCard, { type ProductCardData } from '@/components/commerce/ProductCard'
-import NewsletterForm from '@/components/marketing/NewsletterForm'
 import { HeroSection } from '@/components/marketing/HeroSection'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { MarqueeStrip } from '@/components/ui/MarqueeStrip'
 
 export const metadata: Metadata = {
   title: 'Maison — Parfumerie de création',
-  description:
-    'Des matières choisies, une composition précise, une tenue pensée pour durer.',
-}
-
-// ── Mock data (remplacé par API calls en prod) ──
-const FEATURED_PRODUCT = {
-  name: 'Noir Velours',
-  concentration: 'Extrait de Parfum',
-  price: 220,
-  slug: 'noir-velours',
+  description: 'Des matières choisies, une composition précise, une tenue pensée pour durer.',
 }
 
 const BESTSELLERS: ProductCardData[] = [
-  {
-    slug: 'noir-velours',
-    name: 'Noir Velours',
-    concentration: 'Extrait de Parfum',
-    priceFromCents: 22000,
-    heroImageUrl: 'https://images.unsplash.com/photo-1541643600914-78b084683702?w=800&q=80',
-    badges: ['Atelier'],
-  },
-  {
-    slug: 'bleu-mineral',
-    name: 'Bleu Minéral',
-    concentration: 'Eau de Parfum',
-    priceFromCents: 16000,
-    heroImageUrl: 'https://images.unsplash.com/photo-1588514912908-53abc9d9c399?w=800&q=80',
-    badges: ['Nouveau'],
-  },
-  {
-    slug: 'or-solaire',
-    name: 'Or Solaire',
-    concentration: 'Eau de Parfum',
-    priceFromCents: 18000,
-    heroImageUrl: 'https://images.unsplash.com/photo-1600612253971-1e40651e8ef6?w=800&q=80',
-  },
-  {
-    slug: 'iris-blanc',
-    name: 'Iris Blanc',
-    concentration: 'Extrait de Parfum',
-    priceFromCents: 26000,
-    heroImageUrl: 'https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?w=800&q=80',
-    badges: ['Édition limitée'],
-  },
+  { slug: 'noir-velours', name: 'Noir Velours', concentration: 'Extrait de Parfum', priceFromCents: 22000, heroImageUrl: 'https://images.unsplash.com/photo-1541643600914-78b084683702?w=800&q=80', badges: ['Atelier'] },
+  { slug: 'bleu-mineral', name: 'Bleu Minéral', concentration: 'Eau de Parfum', priceFromCents: 16000, heroImageUrl: 'https://images.unsplash.com/photo-1588514912908-53abc9d9c399?w=800&q=80', badges: ['Nouveau'] },
+  { slug: 'or-solaire', name: 'Or Solaire', concentration: 'Eau de Parfum', priceFromCents: 18000, heroImageUrl: 'https://images.unsplash.com/photo-1600612253971-1e40651e8ef6?w=800&q=80' },
+  { slug: 'iris-blanc', name: 'Iris Blanc', concentration: 'Extrait de Parfum', priceFromCents: 26000, heroImageUrl: 'https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?w=800&q=80', badges: ['Édition limitée'] },
 ]
 
 const UNIVERS = [
-  {
-    id: 'noir',
-    label: 'Noir Velours',
-    tagline: 'Profond. Résine. Fumé.',
-    href: '/collection?vibe=noir-velours',
-    image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=1200&q=80',
-  },
-  {
-    id: 'or',
-    label: 'Or Solaire',
-    tagline: 'Chaleur ambrée. Lumière.',
-    href: '/collection?vibe=or-solaire',
-    image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=1200&q=80',
-  },
-  {
-    id: 'bleu',
-    label: 'Bleu Minéral',
-    tagline: 'Frais. Propre. Élégant.',
-    href: '/collection?vibe=bleu-mineral',
-    image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=1200&q=80',
-  },
-]
-
-const SAVOIR_FAIRE = [
-  {
-    id: 'matieres',
-    title: 'Matières',
-    desc: 'Sélection rigoureuse, traçabilité, accords précis.',
-    icon: '◈',
-  },
-  {
-    id: 'atelier',
-    title: 'Atelier',
-    desc: 'Assemblage artisanal, finitions pensées.',
-    icon: '◇',
-  },
-  {
-    id: 'tenue',
-    title: 'Tenue',
-    desc: 'Équilibre et persistance sur la peau.',
-    icon: '○',
-  },
+  { id: 'noir', label: 'Noir Velours', tagline: 'Profond. Résine. Fumé.', href: '/collection?vibe=noir-velours', image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=1200&q=80' },
+  { id: 'or', label: 'Or Solaire', tagline: 'Chaleur ambrée. Lumière.', href: '/collection?vibe=or-solaire', image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=1200&q=80' },
+  { id: 'bleu', label: 'Bleu Minéral', tagline: 'Frais. Propre. Élégant.', href: '/collection?vibe=bleu-mineral', image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=1200&q=80' },
 ]
 
 const JOURNAL_POSTS = [
-  {
-    slug: 'le-role-du-fond',
-    title: 'Le rôle des notes de fond',
-    excerpt: "Comment le vétiver, l'ambre et la résine construisent la persistance d'un accord.",
-    tag: 'Matières',
-    image: 'https://images.unsplash.com/photo-1596091831165-10b9c5ef7c46?w=800&q=80',
-  },
-  {
-    slug: 'concentration-extrait',
-    title: "Pourquoi l'Extrait",
-    excerpt: 'La concentration maximale : moins de surface, plus de durée, plus de présence.',
-    tag: 'Atelier',
-    image: 'https://images.unsplash.com/photo-1607026246836-d3c0bc2e55fa?w=800&q=80',
-  },
-  {
-    slug: 'rituel-application',
-    title: "Le rituel d'application",
-    excerpt: 'Points de chaleur, superposition, moment : les gestes qui font durer.',
-    tag: 'Rituels',
-    image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=800&q=80',
-  },
+  { slug: 'le-role-du-fond', title: 'Le rôle des notes de fond', excerpt: 'Comment le vétiver, l\'ambre et la résine construisent la persistance.', tag: 'Matières', image: 'https://images.unsplash.com/photo-1596091831165-10b9c5ef7c46?w=800&q=80' },
+  { slug: 'concentration-extrait', title: 'Pourquoi l\'Extrait', excerpt: 'La concentration maximale : moins de surface, plus de durée, plus de présence.', tag: 'Atelier', image: 'https://images.unsplash.com/photo-1607026246836-d3c0bc2e55fa?w=800&q=80' },
+  { slug: 'rituel-application', title: 'Le rituel d\'application', excerpt: 'Points de chaleur, superposition, moment : les gestes qui font durer.', tag: 'Rituels', image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=800&q=80' },
 ]
 
 export default function HomePage() {
   return (
-    <>
-      {/* ── HERO ── */}
+    <div className="bg-ink-950 min-h-screen selection:bg-gold-100/30 selection:text-gold-100">
+      {/* ── IMMERSIVE HERO WITH SLOW ZOOM ── */}
       <HeroSection 
-        title="Une signature. Un sillage. Une présence." 
-        subtitle="Des matières choisies, une composition précise, une tenue pensée pour durer." 
-        backgroundImage="https://images.unsplash.com/photo-1557053910-d9eadeed1c58?w=1920&q=85"
+        title="La Signature de l'Invisible" 
+        subtitle="Où le parfum devient une extension de l'âme." 
+        videoUrl="https://cdn.pixabay.com/video/2021/04/23/71994-541577741_large.mp4"
       >
-        <div className="flex flex-col md:flex-row items-center justify-center gap-8 w-full">
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/collection"
-              className="inline-flex items-center justify-center gap-2 rounded-btn font-sans tracking-wide transition-all duration-micro ease-luxury cursor-pointer px-6 py-3 text-ui bg-gold-100 text-ink-950 font-medium hover:-translate-y-px hover:shadow-[0_4px_24px_rgba(214,181,109,0.35)] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[rgba(214,181,109,0.6)]"
-            >
-              Découvrir la collection
-            </Link>
-            <Link
-              href="/collection#conseiller"
-              className="inline-flex items-center justify-center gap-2 rounded-btn font-sans tracking-wide transition-all duration-micro ease-luxury cursor-pointer px-6 py-3 text-ui bg-glass-06 backdrop-blur-soft border border-stroke-12 text-paper-50 hover:-translate-y-px hover:bg-glass-10 hover:border-stroke-18 focus-visible:outline focus-visible:outline-1 focus-visible:outline-[rgba(214,181,109,0.6)]"
-            >
-              Trouver mon parfum
-            </Link>
-          </div>
-
-          {/* Spotlight Card */}
-          <GlassCard className="p-5 w-full md:w-72 shrink-0 text-left bg-glass-06 shadow-2xl">
-            <p className="text-caption text-gold-100 uppercase tracking-widest mb-3">
-              Création du moment
-            </p>
-            <p className="font-serif text-heading-sm text-paper-50 mb-1">
-              {FEATURED_PRODUCT.name}
-            </p>
-            <p className="text-caption text-paper-50/40 mb-3">
-              {FEATURED_PRODUCT.concentration}
-            </p>
-            <DividerGoldHairline className="mb-3" />
-            <p className="text-ui text-paper-50/60 mb-1">
-              À partir de {FEATURED_PRODUCT.price} €
-            </p>
-            <p className="text-caption text-paper-50/40 mb-4">
-              Échantillon disponible
-            </p>
-            <Link
-              href={`/parfum/${FEATURED_PRODUCT.slug}`}
-              className="
-                text-ui text-gold-100 hover:text-paper-50
-                transition-colors duration-micro ease-luxury
-                inline-flex items-center gap-1
-              "
-            >
-              Voir la création
-              <span aria-hidden="true">→</span>
-            </Link>
-          </GlassCard>
+        <div className="flex flex-col md:flex-row items-center justify-center gap-8 w-full mt-12">
+          <Link
+            href="/collection"
+            className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-btn px-8 py-4 font-sans tracking-widest uppercase text-sm bg-gold-100 text-ink-950 transition-all duration-[600ms] hover:scale-105 hover:shadow-[0_0_40px_rgba(214,181,109,0.4)]"
+          >
+            <span className="relative z-10 flex items-center gap-2 font-medium">
+              Découvrir la Collection <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </span>
+          </Link>
         </div>
       </HeroSection>
 
-      <MarqueeStrip speed="normal" className="py-6 border-y border-stroke-12 bg-ink-900 overflow-hidden">
-        {Array.from({ length: 10 }).map((_, i) => (
-          <span key={i} className="text-paper-50/60 text-ui uppercase tracking-widest px-8">
-            • Extrait de Parfum • Livraison offerte • Retours 14 j • Échantillon inclus
+      <MarqueeStrip speed="slow" className="py-6 border-y border-stroke-12 bg-ink-950/50 backdrop-blur-md overflow-hidden">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <span key={i} className="text-gold-100/70 text-sm uppercase tracking-[0.2em] px-12 font-medium">
+            ✦ Sillage persistant ✦ Extraits purs ✦ Fabriqué en France ✦ Flacons ressourçables
           </span>
         ))}
       </MarqueeStrip>
 
-      {/* ── UNIVERS ── */}
-      <ScrollReveal>
-        <section aria-label="Univers olfactifs" className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {UNIVERS.map(u => (
-              <Link
-                key={u.id}
-                href={u.href}
-                className="
-                  group relative aspect-[3/4] overflow-hidden rounded-card
-                  block
-                "
-              >
-                <Image
-                  src={u.image}
-                  alt={u.label}
-                  fill
-                  className="object-cover transition-transform duration-[800ms] ease-luxury group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                />
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/30 to-transparent" />
-                {/* Gold border on hover */}
-                <div className="absolute inset-0 border border-transparent group-hover:border-[rgba(214,181,109,0.3)] rounded-card transition-colors duration-reveal ease-luxury" />
-                {/* Text */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <p className="font-serif text-heading-sm text-paper-50 mb-1">{u.label}</p>
-                  <p className="text-ui text-paper-50/60">{u.tagline}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-      </ScrollReveal>
-
-      {/* ── MANIFESTE ── */}
-      <ScrollReveal type="fade-up" duration={1} delay={0.2}>
-      <section aria-label="Manifeste" className="py-16 px-6">
-        <div className="max-w-2xl mx-auto text-center">
-          <DividerGoldHairline label="Maison" className="mb-12" />
-          <blockquote className="font-serif text-heading-md text-paper-50 leading-snug mb-8 italic">
-            "Une maison sans enseigne ni artifice.
-            Des compositions conçues pour rester, pas pour séduire."
-          </blockquote>
-          <Link
-            href="/maison"
-            className="
-              text-ui text-gold-100 hover:text-paper-50
-              transition-colors duration-micro ease-luxury
-              inline-flex items-center gap-2
-            "
-          >
-            Découvrir la Maison
-            <span aria-hidden="true">→</span>
-          </Link>
-        </div>
-      </section>
-      </ScrollReveal>
-
-      {/* ── BEST-SELLERS ── */}
-      <ScrollReveal type="fade-up" duration={0.8}>
-      <section aria-label="Sélection" className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-end justify-between mb-10">
-            <div>
-              <p className="text-caption text-gold-100 uppercase tracking-widest mb-2">
-                Sélection
-              </p>
-              <h2 className="font-serif text-heading-lg text-paper-50">
-                Les essentiels
-              </h2>
-            </div>
-            <Link
-              href="/collection"
-              className="
-                hidden md:inline-flex items-center gap-2
-                text-ui text-paper-50/50 hover:text-gold-100
-                transition-colors duration-micro ease-luxury
-              "
-            >
-              Voir tout <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {BESTSELLERS.map((product, i) => (
-              <ProductCard key={product.slug} product={product} priority={i < 2} />
-            ))}
-          </div>
-
-          <div className="mt-8 flex justify-center md:hidden">
-            <Link
-              href="/collection"
-              className="inline-flex items-center justify-center gap-2 rounded-btn font-sans tracking-wide transition-all duration-micro ease-luxury cursor-pointer px-6 py-3 text-ui bg-glass-06 backdrop-blur-soft border border-stroke-12 text-paper-50 hover:-translate-y-px hover:bg-glass-10 hover:border-stroke-18 focus-visible:outline focus-visible:outline-1 focus-visible:outline-[rgba(214,181,109,0.6)]"
-            >
-              Voir toute la collection
-            </Link>
-          </div>
-        </div>
-      </section>
-      </ScrollReveal>
-
-      {/* ── SAVOIR-FAIRE ── */}
-      <ScrollReveal type="scale-up" duration={0.8} delay={0.1}>
-      <section aria-label="Savoir-faire" className="py-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <DividerGoldHairline label="Savoir-faire" className="mb-12" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {SAVOIR_FAIRE.map(item => (
-              <GlassCard key={item.id} className="p-6">
-                <span className="text-2xl text-gold-100 mb-4 block" aria-hidden="true">
-                  {item.icon}
-                </span>
-                <h3 className="font-serif text-heading-sm text-paper-50 mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-ui text-paper-50/50 leading-relaxed">
-                  {item.desc}
-                </p>
-              </GlassCard>
-            ))}
-          </div>
-        </div>
-      </section>
-      </ScrollReveal>
-
-      {/* ── JOURNAL ── */}
-      <ScrollReveal type="fade-in" duration={1}>
-      <section aria-label="Journal" className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-end justify-between mb-10">
-            <div>
-              <p className="text-caption text-gold-100 uppercase tracking-widest mb-2">
-                Journal
-              </p>
-              <h2 className="font-serif text-heading-lg text-paper-50">
-                Notes & matières
-              </h2>
-            </div>
-            <Link
-              href="/journal"
-              className="
-                hidden md:inline-flex items-center gap-2
-                text-ui text-paper-50/50 hover:text-gold-100
-                transition-colors duration-micro ease-luxury
-              "
-            >
-              Lire le Journal <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {JOURNAL_POSTS.map(post => (
-              <Link
-                key={post.slug}
-                href={`/journal/${post.slug}`}
-                className="group flex flex-col gap-4"
-              >
-                <div className="relative aspect-video overflow-hidden rounded-card">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    className="object-cover transition-transform duration-[600ms] ease-luxury group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="px-2 py-1 rounded-chip text-caption text-gold-100 bg-glass-08 backdrop-blur-soft border border-stroke-12">
-                      {post.tag}
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="font-serif text-heading-sm text-paper-50 mb-2 group-hover:text-gold-100 transition-colors duration-micro ease-luxury">
-                    {post.title}
-                  </h3>
-                  <p className="text-ui text-paper-50/50 leading-relaxed line-clamp-2">
-                    {post.excerpt}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-      </ScrollReveal>
-
-      {/* ── SERVICES ── */}
-      <ScrollReveal type="fade-up" duration={0.8}>
-      <section aria-label="Services" className="py-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <DividerGoldHairline className="mb-12" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div className="flex flex-col items-center gap-3">
-              <span className="text-2xl text-gold-100" aria-hidden="true">◈</span>
-              <h3 className="text-ui font-medium text-paper-50">Conseil parfum</h3>
-              <p className="text-caption text-paper-50/40">
-                Un conseiller dédié pour trouver votre signature.
-              </p>
-              <button
-                type="button"
-                className="text-ui text-gold-100 hover:text-paper-50 transition-colors duration-micro ease-luxury"
-              >
-                Démarrer →
-              </button>
-            </div>
-            <div className="flex flex-col items-center gap-3">
-              <span className="text-2xl text-gold-100" aria-hidden="true">◇</span>
-              <h3 className="text-ui font-medium text-paper-50">Échantillons</h3>
-              <p className="text-caption text-paper-50/40">
-                Essayez avant de choisir.
-              </p>
-              <Link
-                href="/collection?type=echantillon"
-                className="text-ui text-gold-100 hover:text-paper-50 transition-colors duration-micro ease-luxury"
-              >
-                Découvrir →
-              </Link>
-            </div>
-            <div className="flex flex-col items-center gap-3">
-              <span className="text-2xl text-gold-100" aria-hidden="true">○</span>
-              <h3 className="text-ui font-medium text-paper-50">Retours 14 jours</h3>
-              <p className="text-caption text-paper-50/40">
-                Retour simple et sans questions.
-              </p>
-              <Link
-                href="/retours"
-                className="text-ui text-gold-100 hover:text-paper-50 transition-colors duration-micro ease-luxury"
-              >
-                En savoir plus →
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-      </ScrollReveal>
-
-      {/* ── NEWSLETTER VIP ── */}
-      <ScrollReveal type="scale-up" duration={0.8}>
-      <section aria-label="Newsletter" className="py-24 px-6">
-        <div className="max-w-lg mx-auto">
-          <GlassCard className="p-8 md:p-10 text-center">
-            <p className="text-caption text-gold-100 uppercase tracking-widest mb-3">
-              Accès privé
-            </p>
-            <h2 className="font-serif text-heading-md text-paper-50 mb-3">
-              Accès privé aux sorties.
+      {/* ── MANIFESTE POÉTIQUE (Negative Space) ── */}
+      <section className="py-40 px-6 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-stroke-12 to-gold-100/50" />
+        <ScrollReveal type="fade-up" duration={1.2}>
+          <div className="max-w-4xl mx-auto text-center relative z-10">
+            <span className="text-caption text-gold-100 uppercase tracking-widest mb-8 block">Le Manifeste</span>
+            <h2 className="font-serif text-heading-xl text-paper-50 leading-tight mb-10">
+              « Le parfum n'est pas fait pour masquer, <br className="hidden md:block"/>
+              <span className="text-paper-50/50 italic mr-2">il est fait pour</span> 
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-gold-100 to-amber-200 shadow-gold-100">révéler.</span> »
             </h2>
-            <p className="text-ui text-paper-50/50 mb-6">
-              Pas de bruit. Uniquement l'essentiel.
+            <p className="text-ui text-paper-50/60 max-w-2xl mx-auto leading-relaxed text-lg">
+              Loin des productions de masse, nous assemblons à la main des absolues rares et des essences précieuses. 
+              Chaque goutte est une promesse d'intensité, un voile de mystère qui vous habille bien après votre départ.
             </p>
+          </div>
+        </ScrollReveal>
+      </section>
 
-            <NewsletterForm />
+      {/* ── ASYMMETRIC GRID: UNIVERS OLFACTIFS ── */}
+      <section className="py-24 px-6 bg-ink-900 border-y border-stroke-12 relative">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
+            <ScrollReveal type="slide-right">
+              <h2 className="font-serif text-5xl md:text-7xl text-paper-50 tracking-tight">
+                Matières <br/><span className="text-gold-100 italic">Premières</span>
+              </h2>
+            </ScrollReveal>
+            <ScrollReveal type="fade-in" delay={0.3}>
+              <p className="max-w-md text-paper-50/50 text-ui leading-relaxed text-left md:text-right">
+                Explorez nos trois univers sculptés autour des familles olfactives les plus nobles de la parfumerie.
+              </p>
+            </ScrollReveal>
+          </div>
 
-            <p className="text-caption text-paper-50/30">
-              En rejoignant, vous acceptez notre{' '}
-              <Link href="/confidentialite" className="underline hover:text-paper-50/60">
-                politique de confidentialité
-              </Link>
-              .
-            </p>
-          </GlassCard>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
+            {/* Big Feature Left */}
+            <div className="lg:col-span-7 h-[60vh] lg:h-[80vh]">
+              <ScrollReveal className="h-full" type="fade-up">
+                <Link href={UNIVERS[0].href} className="group relative w-full h-full block rounded-2xl overflow-hidden will-change-transform">
+                  <Image src={UNIVERS[0].image} alt={UNIVERS[0].label} fill className="object-cover transition-transform duration-[2s] group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-1000" />
+                  <div className="absolute bottom-8 left-8 right-8 pointer-events-none">
+                    <span className="px-3 py-1 rounded-full border border-gold-100/30 text-gold-100 text-xs uppercase tracking-widest backdrop-blur-md mb-4 inline-block">Iconique</span>
+                    <h3 className="font-serif text-4xl text-paper-50 mb-2 group-hover:text-gold-100 transition-colors duration-700">{UNIVERS[0].label}</h3>
+                    <p className="text-paper-50/70 text-lg">{UNIVERS[0].tagline}</p>
+                  </div>
+                </Link>
+              </ScrollReveal>
+            </div>
+            
+            {/* Two Stacked Right */}
+            <div className="lg:col-span-5 flex flex-col gap-6 lg:gap-10 h-[80vh] lg:h-[80vh]">
+              {UNIVERS.slice(1).map((u, i) => (
+                <ScrollReveal key={u.id} className="flex-1 min-h-0" type="fade-up" delay={i * 0.2 + 0.2}>
+                  <Link href={u.href} className="group relative w-full h-full block rounded-2xl overflow-hidden">
+                    <Image src={u.image} alt={u.label} fill className="object-cover transition-transform duration-[2s] group-hover:scale-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-1000" />
+                    <div className="absolute bottom-6 left-6 right-6">
+                      <h3 className="font-serif text-2xl text-paper-50 mb-1 group-hover:text-gold-100 transition-colors duration-700">{u.label}</h3>
+                      <p className="text-paper-50/70">{u.tagline}</p>
+                    </div>
+                  </Link>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
-      </ScrollReveal>
-    </>
+
+      {/* ── BREATHTAKING PARALLAX BANNER (Savoir-faire) ── */}
+      <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?w=1920&q=85')] bg-fixed bg-cover bg-center"
+        />
+        <div className="absolute inset-0 bg-ink-950/60 backdrop-blur-[2px]" />
+        
+        <ScrollReveal type="scale-up" duration={1.2}>
+          <GlassCard variant="soft" hover={false} className="relative z-10 p-12 md:p-16 max-w-2xl text-center mx-4 border-gold-100/20 shadow-2xl">
+            <span className="text-3xl text-gold-100 mb-6 block">◈</span>
+            <h2 className="font-serif text-4xl text-paper-50 mb-6">L'Atelier Français</h2>
+            <p className="text-paper-50/70 text-lg leading-relaxed mb-8">
+              Macération lente. Embouteillage à la main. Un respect absolu du temps de maturation pour garantir une rémanence qui défie les heures.
+            </p>
+            <Link href="/maison" className="inline-flex items-center gap-2 text-gold-100 uppercase tracking-widest text-sm hover:text-paper-50 transition-colors duration-300">
+              Découvrir notre art <span className="text-lg">→</span>
+            </Link>
+          </GlassCard>
+        </ScrollReveal>
+      </section>
+
+      {/* ── BEST-SELLERS MINIMALIST CAROUSEL/GRID ── */}
+      <section className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <ScrollReveal type="fade-up">
+            <div className="flex flex-col items-center text-center mb-16">
+              <span className="text-caption text-gold-100 uppercase tracking-widest mb-4">La Sélection</span>
+              <h2 className="font-serif text-heading-lg text-paper-50 mb-6">Objets de Désir</h2>
+              <div className="h-px w-24 bg-stroke-12" />
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {BESTSELLERS.map((product, i) => (
+              <ScrollReveal key={product.slug} type="fade-up" delay={i * 0.1}>
+                <ProductCard product={product} priority={i < 2} />
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <div className="mt-16 flex justify-center">
+            <Link
+              href="/collection"
+              className="px-8 py-3 rounded-full border border-stroke-12 text-paper-50/70 hover:text-gold-100 hover:border-gold-100 hover:bg-gold-100/5 transition-all duration-300 uppercase tracking-widest text-xs"
+            >
+              Explorer le vestiaire olfactif
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── EDITORIAL / JOURNAL ── */}
+      <section className="py-32 px-6 bg-ink-900 border-t border-stroke-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
+            <ScrollReveal>
+              <h2 className="font-serif text-5xl text-paper-50">Journal de<br/><span className="italic text-gold-100">Création</span></h2>
+            </ScrollReveal>
+            <ScrollReveal delay={0.2}>
+              <Link href="/journal" className="inline-flex items-center gap-2 text-ui text-paper-50/50 hover:text-gold-100 transition-colors duration-300">
+                Tout lire <span aria-hidden="true">→</span>
+              </Link>
+            </ScrollReveal>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {JOURNAL_POSTS.map((post, i) => (
+              <ScrollReveal key={post.slug} type="fade-up" delay={i * 0.15}>
+                <Link href={`/journal/${post.slug}`} className="group block">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-xl mb-6">
+                    <Image src={post.image} alt={post.title} fill className="object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                    <div className="absolute top-4 left-4 border border-paper-50/20 bg-ink-950/40 backdrop-blur-md px-3 py-1 rounded-full text-xs text-gold-100 uppercase tracking-widest">
+                      {post.tag}
+                    </div>
+                  </div>
+                  <h3 className="font-serif text-2xl text-paper-50 mb-3 group-hover:text-gold-100 transition-colors duration-300">{post.title}</h3>
+                  <p className="text-paper-50/50 text-sm leading-relaxed line-clamp-2">{post.excerpt}</p>
+                </Link>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
   )
 }
