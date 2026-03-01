@@ -74,13 +74,13 @@ export default function JournalPage() {
             delay={index * 0.1}
             className={article.featured ? "md:col-span-2 lg:col-span-2" : ""}
           >
-            <GlassCard 
-              as={Link} 
-              href={`/journal/${article.slug}`}
-              className="flex flex-col h-full group hover-lift overflow-hidden"
-              hover={false}
-            >
-              <div className={`relative w-full ${article.featured ? 'aspect-video' : 'aspect-[4/3]'} overflow-hidden bg-ink-900 border-b border-stroke-12`}>
+            <Link href={`/journal/${article.slug}`} className="block h-full cursor-pointer">
+              <GlassCard 
+                className="flex flex-col h-full group hover-lift overflow-hidden"
+                hover={false}
+              >
+                <div className={`relative w-full ${article.featured ? 'aspect-video' : 'aspect-[4/3]'} overflow-hidden bg-ink-900 border-b border-stroke-12`}>
+
                 <Image
                   src={article.image}
                   alt={article.title}
@@ -107,7 +107,8 @@ export default function JournalPage() {
                   </span>
                 </div>
               </div>
-            </GlassCard>
+              </GlassCard>
+            </Link>
           </ScrollReveal>
         ))}
       </div>
