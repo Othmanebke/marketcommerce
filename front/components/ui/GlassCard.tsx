@@ -2,13 +2,14 @@
 
 import { forwardRef } from 'react'
 
-interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface GlassCardProps extends React.HTMLAttributes<HTMLElement> {
   variant?: 'soft' | 'med'
   hover?: boolean
   as?: React.ElementType
+  href?: string
 }
 
-const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
+const GlassCard = forwardRef<HTMLElement, GlassCardProps>(
   ({ variant = 'med', hover = true, className = '', as: Tag = 'div', ...props }, ref) => {
     const base =
       'rounded-card border transition-all duration-micro ease-luxury'
