@@ -23,34 +23,34 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-stroke-12 mt-24" role="contentinfo">
+    <footer className="border-t border-stroke-12 mt-24 bg-ink-950" role="contentinfo">
       <ScrollReveal>
-      <div className="max-w-7xl mx-auto px-6 py-16">
+      <div className="max-w-7xl mx-auto px-6 py-24">
         {/* Top row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
           {/* Brand */}
           <div>
-            <p className="font-serif text-[18px] tracking-[0.12em] uppercase text-paper-50 mb-3">
+            <p className="font-serif text-3xl tracking-[0.2em] uppercase text-paper-50 mb-6">
               Maison
             </p>
-            <p className="text-ui text-paper-50/40 max-w-xs leading-relaxed">
+            <p className="text-sm font-light text-paper-50/40 max-w-xs leading-relaxed italic">
               Parfumerie de création. Des compositions conçues pour rester.
             </p>
           </div>
 
           {/* Maison links */}
           <nav aria-label="Navigation Maison">
-            <p className="text-caption text-gold-100 uppercase tracking-widest mb-4">
+            <p className="text-[10px] text-gold-100 uppercase tracking-[0.25em] mb-6">
               Navigation
             </p>
-            <ul role="list" className="flex flex-col gap-2">
+            <ul role="list" className="flex flex-col gap-4">
               {maison.map(link => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
                     className="
-                      text-ui text-paper-50/50 hover:text-paper-50
-                      transition-colors duration-micro ease-luxury
+                      text-[10px] uppercase tracking-[0.2em] text-paper-50/50 hover:text-gold-100
+                      transition-colors duration-500
                     "
                   >
                     {link.label}
@@ -62,17 +62,17 @@ export default function Footer() {
 
           {/* Legal links */}
           <nav aria-label="Informations légales">
-            <p className="text-caption text-gold-100 uppercase tracking-widest mb-4">
+            <p className="text-[10px] text-gold-100 uppercase tracking-[0.25em] mb-6">
               Légal
             </p>
-            <ul role="list" className="flex flex-col gap-2">
+            <ul role="list" className="flex flex-col gap-4">
               {legal.map(link => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
                     className="
-                      text-ui text-paper-50/50 hover:text-paper-50
-                      transition-colors duration-micro ease-luxury
+                      text-[10px] uppercase tracking-[0.2em] text-paper-50/50 hover:text-gold-100
+                      transition-colors duration-500
                     "
                   >
                     {link.label}
@@ -83,11 +83,11 @@ export default function Footer() {
           </nav>
         </div>
 
-        <DividerGoldHairline className="mb-8" />
+        <DividerGoldHairline className="mb-12" />
 
         {/* Bottom row */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-caption text-paper-50/30">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-paper-50/30">
             © {new Date().getFullYear()} Maison. Tous droits réservés.
           </p>
 

@@ -43,10 +43,10 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
         role="banner"
         className={`
           fixed top-0 left-0 right-0 z-50
-          transition-all duration-reveal ease-luxury
+          transition-all duration-700
           ${scrolled
-            ? 'glass-med border-b border-stroke-12'
-            : 'bg-transparent border-b border-transparent'
+            ? 'bg-ink-950/80 backdrop-blur-xl border-b border-stroke-12 py-2'
+            : 'bg-transparent border-b border-transparent py-4'
           }
         `}
       >
@@ -58,9 +58,9 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
           <Link
             href="/"
             className="
-              font-serif text-[18px] tracking-[0.12em] uppercase text-paper-50
-              hover:text-gold-100 transition-colors duration-micro ease-luxury
-              focus-visible:outline focus-visible:outline-1 focus-visible:outline-[rgba(214,181,109,0.6)]
+              font-serif text-2xl tracking-[0.2em] text-paper-50
+              hover:text-gold-100 transition-colors duration-500
+              focus-visible:outline-none
             "
             aria-label="Maison — Accueil"
           >
@@ -70,17 +70,17 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
           {/* Links desktop */}
           <ul
             role="list"
-            className="hidden md:flex items-center gap-8"
+            className="hidden md:flex items-center gap-10"
           >
             {navLinks.map(link => (
               <li key={link.href}>
                 <Link
                   href={link.href}
                   className="
-                    text-ui text-paper-50/70 tracking-wide
-                    hover:text-paper-50
-                    transition-colors duration-micro ease-luxury
-                    focus-visible:outline focus-visible:outline-1 focus-visible:outline-[rgba(214,181,109,0.6)]
+                    text-[10px] uppercase tracking-[0.25em] text-paper-50/70
+                    hover:text-gold-100
+                    transition-colors duration-500
+                    focus-visible:outline-none
                   "
                 >
                   {link.label}

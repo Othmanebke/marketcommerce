@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
+import GlassCard from '@/components/ui/GlassCard'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 
 export const metadata: Metadata = {
@@ -56,53 +57,57 @@ export default function JournalPage() {
   return (
     <div className="min-h-screen bg-ink-950 pt-32 pb-24 px-6">
       <ScrollReveal type="fade-up">
-        <div className="max-w-[1400px] mx-auto mb-24 border-b border-stroke-12 pb-16">
-          <p className="text-[10px] text-gold-100 uppercase tracking-[0.2em] mb-4">Éditorial</p>
-          <h1 className="font-serif text-5xl md:text-7xl text-paper-50 mb-6 tracking-tight">Le Journal</h1>
-          <p className="text-lg text-paper-50/60 max-w-xl font-light leading-relaxed italic">
+        <div className="max-w-7xl mx-auto mb-16">
+          <p className="text-caption text-gold-100 uppercase tracking-widest mb-4">Éditorial</p>
+          <h1 className="font-serif text-display-md text-paper-50 mb-6">Le Journal</h1>
+          <p className="text-ui text-paper-50/60 max-w-xl">
             Notes, réflexions et explorations autour du parfum. Une plongée intimiste dans notre processus créatif.
           </p>
         </div>
       </ScrollReveal>
 
-      <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-24 gap-x-12">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {ARTICLES.map((article, index) => (
           <ScrollReveal 
             key={article.slug} 
-            type="fade-up" 
+            type="scale-up" 
             delay={index * 0.1}
             className={article.featured ? "md:col-span-2 lg:col-span-2" : ""}
           >
-            <Link href={`/journal/${article.slug}`} className="block h-full cursor-pointer group">
-              <div className="flex flex-col h-full">
-                <div className={`relative w-full ${article.featured ? 'aspect-video' : 'aspect-[4/5]'} overflow-hidden border border-stroke-12 mb-8`}>
-                  <Image
-                    src={article.image}
-                    alt={article.title}
-                    fill
-                    className="object-cover transition-transform duration-[10s] ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute top-4 left-4 z-10">
-                    <span className="px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-ink-950 bg-gold-100">
-                      {article.category}
-                    </span>
-                  </div>
-                </div>
-              <div className="flex flex-col flex-grow">
-                <span className="text-sm text-paper-50/40 mb-4 block font-light">{article.date}</span>
-                <h3 className="font-serif text-3xl md:text-4xl text-paper-50 mb-4 group-hover:text-gold-100 transition-colors duration-300 tracking-tight">
-                  {article.title}
-                </h3>
-                <p className="text-base text-paper-50/70 line-clamp-3 mb-8 font-light leading-relaxed flex-grow">
-                  {article.excerpt}
-                </p>
-                <div className="mt-auto">
-                  <span className="text-[11px] uppercase tracking-[0.2em] border-b border-gold-100/30 pb-1 text-gold-100 group-hover:border-gold-100 transition-colors duration-300 inline-flex items-center gap-2">
-                    Lire l'article <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+            <Link href={`/journal/${article.slug}`} className="block h-full cursor-pointer">
+              <GlassCard 
+                className="flex flex-col h-full group hover-lift overflow-hidden"
+                hover={false}
+              >
+                <div className={`relative w-full ${article.featured ? 'aspect-video' : 'aspect-[4/3]'} overflow-hidden bg-ink-900 border-b border-stroke-12`}>
+
+                <Image
+                  src={article.image}
+                  alt={article.title}
+                  fill
+                  className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                />
+                <div className="absolute top-4 left-4 z-10">
+                  <span className="px-3 py-1 rounded-chip text-caption text-gold-100 bg-ink-950/80 backdrop-blur-md border border-stroke-12">
+                    {article.category}
                   </span>
                 </div>
               </div>
+              <div className="p-6 flex flex-col flex-grow">
+                <span className="text-caption text-paper-50/40 mb-3 block">{article.date}</span>
+                <h3 className="font-serif text-heading-sm text-paper-50 mb-3 group-hover:text-gold-100 transition-colors duration-micro">
+                  {article.title}
+                </h3>
+                <p className="text-ui text-paper-50/60 line-clamp-3 mb-6 flex-grow">
+                  {article.excerpt}
+                </p>
+                <div className="mt-auto">
+                  <span className="text-ui text-gold-100 group-hover:text-paper-50 transition-colors duration-micro inline-flex items-center gap-2">
+                    Lire l'article <span aria-hidden="true">→</span>
+                  </span>
+                </div>
               </div>
+              </GlassCard>
             </Link>
           </ScrollReveal>
         ))}

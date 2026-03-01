@@ -68,8 +68,8 @@ export function HeroSection({ title, subtitle, backgroundImage, videoUrl, childr
             className="w-full h-full object-cover"
             src={videoUrl}
           />
-        ) : isMounted && backgroundImage ? (
-          <div 
+        ) : backgroundImage ? (
+          <div
              className="w-full h-full"
              style={{
                backgroundImage: `url(${backgroundImage})`,

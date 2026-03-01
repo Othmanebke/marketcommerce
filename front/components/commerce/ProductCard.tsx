@@ -43,26 +43,22 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
   const [hovered, setHovered] = useState(false)
 
   return (
-    <GlassCard
-      as={Link}
+    <Link
       href={`/parfum/${product.slug}`}
-      hover={false}
-      className="
-        block group hover-lift
-        overflow-hidden
-      "
+      className="block group"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       {/* Image */}
-      <div className="relative aspect-[3/4] overflow-hidden bg-ink-800 shine-on-hover">
+      <div className="relative aspect-[3/4] overflow-hidden bg-ink-900 border border-stroke-12 mb-4">
         <Image
           src={product.heroImageUrl}
           alt={product.name}
           fill
           sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
           className={`
-            object-cover transition-all duration-[600ms] ease-luxury
+            object-cover transition-transform duration-[1.5s] ease-out
+            ${hovered ? 'scale-105' : 'scale-100'}
             ${hovered && product.hoverImageUrl ? 'opacity-0' : 'opacity-100'}
           `}
           priority={priority}
@@ -75,24 +71,21 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
             fill
             sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
             className={`
-              object-cover absolute inset-0
-              transition-all duration-[600ms] ease-luxury
-              ${hovered ? 'opacity-100' : 'opacity-0'}
+              object-cover absolute inset-0 transition-transform duration-[1.5s] ease-out
+              ${hovered ? 'scale-105 opacity-100' : 'scale-100 opacity-0'}
             `}
           />
         )}
 
         {/* Badges */}
         {product.badges && product.badges.length > 0 && (
-          <div className="absolute top-3 left-3 flex flex-col gap-1">
+          <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
             {product.badges.map(badge => (
               <span
                 key={badge}
                 className={`
-                  px-2 py-0.5 rounded-chip
-                  text-[10px] font-medium tracking-wider uppercase
-                  border
-                  ${badgeColors[badge] ?? 'bg-glass-08 text-paper-50/70 border-stroke-12'}
+                  px-3 py-1 text-[9px] tracking-[0.2em] uppercase border backdrop-blur-md
+                  ${badgeColors[badge] ?? 'bg-ink-950/40 text-paper-50/70 border-stroke-12'}
                 `}
               >
                 {badge}
@@ -103,17 +96,17 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
       </div>
 
       {/* Info */}
-      <div className="p-4 flex flex-col gap-1">
-        <p className="text-caption text-paper-50/40 uppercase tracking-widest">
+      <div className="flex flex-col items-center text-center px-2">
+        <p className="text-[10px] text-paper-50/40 uppercase tracking-[0.2em] mb-2">
           {product.concentration}
         </p>
-        <h3 className="font-serif text-heading-sm text-paper-50 group-hover:text-gold-100 transition-colors duration-micro ease-luxury">
+        <h3 className="font-serif text-2xl text-paper-50 group-hover:text-gold-100 transition-colors duration-500 mb-2">
           {product.name}
         </h3>
-        <p className="text-ui text-paper-50/60 mt-1">
+        <p className="text-sm font-light text-paper-50/60 italic">
           À partir de {formatPrice(product.priceFromCents)}
         </p>
       </div>
-    </GlassCard>
+    </Link>
   )
 }

@@ -38,7 +38,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className="bg-ink-950 text-paper-50 font-sans antialiased">
+      <body className="bg-ink-950 text-paper-50 font-sans antialiased selection:bg-gold-100/30 selection:text-gold-100 min-h-screen flex flex-col">
         {/* Skip to main content (a11y) */}
         <a
           href="#main-content"
@@ -53,7 +53,7 @@ export default function RootLayout({
 
         <Navbar />
 
-        <main id="main-content" className="pt-16">
+        <main id="main-content" className="flex-1">
           {children}
         </main>
 

@@ -147,22 +147,26 @@ export default function CollectionPage() {
   )
 
   return (
-    <div className="min-h-screen">
+    <div className="bg-ink-950 min-h-screen">
 
       {/* ── Page header ── */}
-      <ScrollReveal>
-      <div className="px-6 pt-16 pb-10 max-w-7xl mx-auto">
-        <p className="text-caption text-gold-100 uppercase tracking-widest mb-2">
-          Catalogue
-        </p>
-        <h1 className="font-serif text-display-sm text-paper-50 mb-3">
-          Collection
-        </h1>
-        <p className="text-ui text-paper-50/50">
-          Filtrer par humeur, matières, tenue.
-        </p>
-      </div>
-      </ScrollReveal>
+      <section className="relative pt-32 pb-24 px-6 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-stroke-12 to-gold-100/50" />
+        <ScrollReveal type="fade-up" duration={1.2}>
+          <div className="max-w-4xl mx-auto text-center relative z-10">
+            <p className="text-caption text-gold-100 uppercase tracking-widest mb-6 block">
+              Le Vestiaire Olfactif
+            </p>
+            <h1 className="font-serif text-5xl md:text-7xl text-paper-50 mb-8 tracking-tight leading-tight">
+              Collection <br/><span className="text-gold-100 italic">Signature</span>
+            </h1>
+            <p className="text-lg text-paper-50/60 font-light max-w-2xl mx-auto leading-relaxed">
+              Explorez nos créations assemblées à la main. Laissez-vous guider par vos humeurs, 
+              nos matières premières nobles et l'intensité qui vous correspond.
+            </p>
+          </div>
+        </ScrollReveal>
+      </section>
 
       {/* ── Sticky Filter Bar ── */}
       <div

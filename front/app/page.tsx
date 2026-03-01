@@ -38,7 +38,7 @@ export default function HomePage() {
       <HeroSection 
         title="La Signature de l'Invisible" 
         subtitle="Où le parfum devient une extension de l'âme." 
-        videoUrl="https://cdn.pixabay.com/video/2021/04/23/71994-541577741_large.mp4"
+        backgroundImage="https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&q=80&w=2000"
       >
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 w-full mt-12">
           <Link
