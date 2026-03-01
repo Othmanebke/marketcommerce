@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 interface HeroSectionProps {
@@ -13,6 +13,12 @@ interface HeroSectionProps {
 
 export function HeroSection({ title, subtitle, backgroundImage, videoUrl, children }: HeroSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end start'],
@@ -48,12 +54,12 @@ export function HeroSection({ title, subtitle, backgroundImage, videoUrl, childr
     >
       {/* Parallax Background */}
       <motion.div
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 bg-ink-950"
         style={{
           y: backgroundY,
         }}
       >
-        {videoUrl ? (
+        {isMounted && videoUrl ? (
           <video
             autoPlay
             muted
@@ -62,7 +68,7 @@ export function HeroSection({ title, subtitle, backgroundImage, videoUrl, childr
             className="w-full h-full object-cover"
             src={videoUrl}
           />
-        ) : (
+        ) : isMounted && backgroundImage ? (
           <div 
              className="w-full h-full"
              style={{
@@ -71,6 +77,8 @@ export function HeroSection({ title, subtitle, backgroundImage, videoUrl, childr
                backgroundSize: 'cover',
              }}
           />
+        ) : (
+          <div className="w-full h-full bg-ink-950" />
         )}
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-ink-950/50 bg-gradient-to-t from-ink-950 via-ink-950/60 to-transparent" />
