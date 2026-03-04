@@ -1,109 +1,84 @@
 'use client'
 
-import React from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { HeroSection } from '@/components/marketing/HeroSection'
+import ProductCard, { type ProductCardData } from '@/components/commerce/ProductCard'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
-import Button from '@/components/ui/Button'
 
-// Reusing same mock data logic as homepage logic for continuity
-const COLLECTIONS = [
-  {
-    id: 'noir',
-    title: 'La Collection Noire',
-    subtitle: 'Profondeur. Mystère. Intensité.',
-    description: "Des extraits de parfum riches en résines, bois fumés et épices. Pour le soir, pour l'hiver, ou pour marquer les esprits.",
-    image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=1200&q=85',
-    link: '/shop?filter=Noire'
-  },
-  {
-    id: 'lumiere',
-    title: 'La Collection Lumière',
-    subtitle: 'Éclat. Fraîcheur. Transparence.',
-    description: "Des eaux de parfum ciselées autour des agrumes, des fleurs blanches et des muscs. Une élégance diurne et lumineuse.",
-    image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=1200&q=85',
-    link: '/shop?filter=Lumière'
-  },
-  {
-    id: 'matieres',
-    title: 'Les Soliflores',
-    subtitle: 'Hommage à la matière brute.',
-    description: "Une exploration radicale d'une seule matière première d'exception : Iris, Vétiver, Santal. Sans artifice.",
-    image: 'https://images.unsplash.com/photo-1596091831165-10b9c5ef7c46?w=1200&q=85',
-    link: '/shop?filter=Soliflore'
-  }
+// Données mockées étendues pour le catalogue complet
+const ALL_PRODUCTS: ProductCardData[] = [
+  { slug: 'noir-velours', name: 'Noir Velours',  concentration: 'Extrait de Parfum', priceFromCents: 22000, heroImageUrl: 'https://images.unsplash.com/photo-1541643600914-78b084683702?w=800&q=80', badges: ['Atelier', 'Hiver'] },
+  { slug: 'bleu-mineral', name: 'Bleu Minéral',  concentration: 'Eau de Parfum',     priceFromCents: 16000, heroImageUrl: 'https://images.unsplash.com/photo-1588514912908-53abc9d9c399?w=800&q=80', badges: ['Nouveau', 'Eté'] },
+  { slug: 'or-solaire',   name: 'Or Solaire',    concentration: 'Eau de Parfum',     priceFromCents: 18000, heroImageUrl: 'https://images.unsplash.com/photo-1600612253971-1e40651e8ef6?w=800&q=80', badges: ['Soleil'] },
+  { slug: 'iris-blanc',   name: 'Iris Blanc',    concentration: 'Extrait de Parfum', priceFromCents: 26000, heroImageUrl: 'https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?w=800&q=80', badges: ['Rare', 'Intemporel'] },
+  { slug: 'cuir-fume',    name: 'Cuir Fumé',     concentration: 'Eau de Parfum',     priceFromCents: 19500, heroImageUrl: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800&q=80', badges: ['Caractère'] },
+  { slug: 'rose-oud',     name: 'Rose Oud',      concentration: 'Extrait de Parfum', priceFromCents: 28000, heroImageUrl: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=800&q=80', badges: ['Exclusif', 'Soir'] },
+  { slug: 'santal-creme', name: 'Santal Crème',  concentration: 'Eau de Parfum',     priceFromCents: 17500, heroImageUrl: 'https://images.unsplash.com/photo-1616604212595-5807bbdb2142?w=800&q=80', badges: ['Douceur'] },
+  { slug: 'vetiver-racine',name: 'Vétiver Racine',concentration: 'Eau de Toilette',  priceFromCents: 14500, heroImageUrl: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&q=80', badges: ['Terre'] },
 ]
 
+const FILTERS = ['Tout', 'Extrait de Parfum', 'Eau de Parfum', 'Atelier', 'Nouveautés']
+
 export default function CollectionPage() {
+  const [activeFilter, setActiveFilter] = useState('Tout')
+
+  // Filtrage simple
+  const filteredProducts = ALL_PRODUCTS.filter(p => {
+    if (activeFilter === 'Tout') return true
+    if (activeFilter === 'Nouveautés') return p.badges?.includes('Nouveau')
+    if (activeFilter === 'Atelier') return p.badges?.includes('Atelier')
+    return p.concentration === activeFilter
+  })
+
   return (
     <main className="min-h-screen bg-ink-950 pb-32">
-       <HeroSection
-        title="Nos Collections"
-        subtitle="Trois univers, trois visions de la parfumerie. Choisissez votre signature."
-        backgroundImage="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1920&q=85&auto=format&fit=crop"
+      <HeroSection
+        title="La Collection"
+        subtitle="Une collection de fragrances pensées pour durer, sans compromis sur la matière."
+        backgroundImage="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=1920&q=85"
         align="center"
       />
 
-      <section className="px-6 max-w-[1400px] mx-auto py-24 space-y-32">
-        {COLLECTIONS.map((col, i) => (
-          <ScrollReveal key={col.id} type="fade-up" delay={i * 0.1}>
-            <div className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-24 ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
-              
-              {/* Image Block */}
-              <div className="w-full lg:w-1/2 aspect-[4/5] relative group overflow-hidden border border-stroke-12">
-                <Image
-                  src={col.image}
-                  alt={col.title}
-                  fill
-                  className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-ink-950/20 group-hover:bg-ink-950/0 transition-colors duration-500" />
-              </div>
-
-              {/* Text Block */}
-              <div className="w-full lg:w-1/2 space-y-8 text-center lg:text-left">
-                <h2 className="font-serif text-4xl md:text-5xl text-paper-50">
-                  {col.title}
-                </h2>
-                <p className="text-gold-100 font-medium tracking-wide uppercase text-sm">
-                  {col.subtitle}
-                </p>
-                <div className="w-16 h-[1px] bg-gold-100/30 mx-auto lg:mx-0" />
-                <p className="text-paper-50/70 text-lg font-light leading-relaxed max-w-md mx-auto lg:ml-0">
-                  {col.description}
-                </p>
-                
-                <div className="pt-4">
-                  <Link href="/shop">
-                    <Button variant="outline">
-                      Découvrir la collection
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-
-            </div>
-          </ScrollReveal>
-        ))}
-      </section>
-
-      {/* CTA Bottom */}
-      <ScrollReveal>
-        <section className="py-24 px-6 text-center bg-ink-900/30 border-y border-stroke-12">
-          <h2 className="font-serif text-3xl text-paper-50 mb-6">Vous ne savez pas quoi choisir ?</h2>
-          <p className="text-paper-50/60 mb-8 max-w-xl mx-auto font-light">
-            Laissez notre expert olfactif vous guider vers le parfum qui correspond à votre personnalité et vos envies du moment.
-          </p>
-          <div className="flex justify-center">
-            <Link href="/shop">
-              <Button variant="primary">
-                 Voir tout le catalogue
-              </Button>
-            </Link>
+      <section className="px-6 max-w-[1400px] mx-auto -mt-20 relative z-10">
+        <ScrollReveal type="fade-up" delay={0.2}>
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-16">
+            {FILTERS.map(filter => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`
+                  px-5 py-2 rounded-chip text-sm font-medium transition-all duration-300 backdrop-blur-md
+                  ${activeFilter === filter 
+                    ? 'bg-gold-100 text-ink-950 shadow-[0_0_20px_rgba(214,181,109,0.3)]' 
+                    : 'bg-ink-900/60 text-paper-50 border border-stroke-12 hover:border-gold-100/30 hover:bg-ink-800/80'}
+                `}
+              >
+                {filter}
+              </button>
+            ))}
           </div>
-        </section>
-      </ScrollReveal>
+        </ScrollReveal>
+
+        <motion.div 
+          layout
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16"
+        >
+          <AnimatePresence>
+            {filteredProducts.map((product, i) => (
+              <ScrollReveal key={product.slug} type="fade-up" delay={i * 0.05}>
+                <ProductCard product={product} />
+              </ScrollReveal>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {filteredProducts.length === 0 && (
+          <div className="text-center py-24 text-paper-50/40 font-light italic">
+            Aucun parfum ne correspond à votre recherche.
+          </div>
+        )}
+      </section>
     </main>
   )
 }
