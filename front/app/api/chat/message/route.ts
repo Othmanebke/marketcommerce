@@ -36,25 +36,26 @@ const NEXT_STEP: Record<Step, Step> = {
 }
 
 const STEP_CHIPS: Record<Step, string[]> = {
-  init:        ['Commencer →'],
-  vibe:        ['Noir Velours', 'Or Solaire', 'Bleu Minéral', 'Ivoire Propre', 'Rouge Épicé'],
-  family:      ['Boisé', 'Ambré', 'Floral', 'Hespéridé', 'Musqué', 'Gourmand', 'Je ne sais pas'],
-  notes_liked: ['Bergamote', 'Rose', 'Oud', 'Musc blanc', 'Vétiver', 'Iris', 'Ambre', 'Cèdre', 'Poivre', 'Jasmin'],
-  notes_avoid: ['Passer →'],
-  intensity:   ['Discret', 'Équilibré', 'Présent'],
-  occasion:    ['Journée', 'Bureau', 'Soirée', 'Rendez-vous'],
-  done:        ['Affiner : plus frais', 'Affiner : plus sombre', 'Recommencer'],
+  init:        ['Guidez-moi vers un parfum', 'Je cherche un cadeau', 'Je veux explorer par note'],
+  vibe:        ['Frais & Minéral', 'Sombre & Fumé', 'Solaire & Joyeux', 'Charnel & Épicé', 'Propre & Poudré'],
+  family:      ['Boisé (Cèdre, Vétiver)', 'Ambré (Vanille)', 'Floral (Rose, Iris)', 'Hespéridé (Agrumes)', 'Cuiré (Tabac)', 'Je ne sais pas'],
+  notes_liked: ['Bergamote', 'Vétiver', 'Héliotrope', 'Iris Pallida', 'Musc Blanc', 'Oud', 'Santal', 'Fleur d\'Oranger', 'Poivre', 'Cuir'],
+  notes_avoid: ['Aucune', 'Vanille', 'Oud', 'Patchouli', 'Rose', 'Notes sucrées'],
+  intensity:   ['Intime (Peau)', 'Équilibré (Signature)', 'Intense (Sillage)'],
+  occasion:    ['Signature quotidienne', 'Soirées & Galas', 'Bureau & Professionnel', 'Rendez-vous intime', 'Vacances & Été'],
+  done:        ['Affiner la recherche', 'Recommencer', 'Voir toute la collection'],
 }
 
 const STEP_QUESTIONS: Record<Step, string> = {
-  init:        'Bienvenue. Je suis le Conseiller Maison.\nJe vais te recommander une création en quelques questions.',
-  vibe:        'Quelle ambiance te ressemble aujourd\'hui ?',
-  family:      'Tu tends vers quelle famille olfactive ?',
-  notes_liked: 'Trois notes que tu adores, si tu en as ? (sélectionne ou passe)',
-  notes_avoid: 'Et des notes que tu préfères éviter ?',
-  intensity:   'Tu veux un parfum plutôt…',
-  occasion:    'Pour quel moment ?',
-  done:        '',
+  init:        "Bonjour et bienvenue.\nJe suis votre **Concierge Olfactif**.\n\nQuelle est votre *quête* aujourd'hui ? Je peux vous guider vers votre signature, ou vous aider à offrir un souvenir.",
+  vibe:        "Commençons par une **émotion**.\n\nImaginez le parfum idéal. Que vous évoque-t-il ?\n\n• La fraîcheur d'un *matin d'été* (Minéral)\n• La chaleur d'un *feu de bois* (Fumé, Cuiré)\n• La douceur d'une *seconde peau* (Musqué, Propre)",
+  family:      "Avez-vous une **famille** de prédilection ?\n\nSi vous hésitez, pensez à vos parfums passés.\nÉtaient-ils plutôt opulents (*Ambrés*), vifs (*Hespéridés*) ou structurés (*Boisés*) ?",
+  notes_liked: "Parlons **matières nobles**.\n\nQuelles notes font vibrer votre corde sensible ?\n(Ex: Le *Vétiver* terreux, l'*Iris* poudré, la *Vanille* noire...)",
+  notes_avoid: "À l'inverse, y a-t-il des notes qui vous déplaisent ou vous entêtent ?\n\n(Certaines personnes craignent le Patchouli trop terreux ou la Tubéreuse trop capiteuse)",
+  intensity:   "Comment portez-vous votre parfum ?\n\nCherchez-vous un sillage qui *signe votre passage* ou une aura *intime*, pour vous et vos proches ?",
+  occasion:    "Enfin, pour quel **moment** destinez-vous ce parfum ?\n\nEst-ce pour le quotidien, une soirée d'exception, ou pour marquer les esprits au travail ?",
+  done:        "Merci. J'ai analysé votre profil olfactif.\n\nVoici les créations qui **résonnent** le mieux avec vos réponses.",
+
 }
 
 // Intensity mapping from chip label

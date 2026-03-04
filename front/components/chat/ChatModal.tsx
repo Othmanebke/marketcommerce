@@ -39,9 +39,45 @@ function formatPrice(cents: number) {
   }).format(cents / 100)
 }
 
+// ── Helper: Rich Text (Bold, Italic) ──
+function RichText({ content }: { content: string }) {
+  // Simple parser: split by lines, check for **bold** and *italic*
+  return (
+    <div className="space-y-2">
+      {content.split('\n').map((line, i) => {
+        if (!line.trim()) return <div key={i} className="h-0" />
+        
+        // Find segments: ** bold ** or * italic *
+        const parts = line.split(/(\*\*.*?\*\*|\*.*?\*)/g)
+        return (
+          <p key={i} className="leading-relaxed">
+            {parts.map((p, j) => {
+              if (p.startsWith('**') && p.endsWith('**')) {
+                return <strong key={j} className="text-gold-100 font-medium">{p.slice(2, -2)}</strong>
+              }
+              if (p.startsWith('*') && p.endsWith('*')) {
+                return <em key={j} className="text-paper-50/70 not-italic">{p.slice(1, -1)}</em>
+              }
+              return <span key={j}>{p}</span>
+            })}
+          </p>
+        )
+      })}
+    </div>
+  )
+}
+
 // ── Typing indicator ──
 function TypingIndicator() {
   return (
+    <div className="flex items-center gap-1 px-4 py-3 bg-ink-900 border border-stroke-12 rounded-full w-fit animate-fade-in shadow-xl">
+      <span className="w-1.5 h-1.5 rounded-full bg-gold-100 animate-dot1" />
+      <span className="w-1.5 h-1.5 rounded-full bg-gold-100 animate-dot2" />
+      <span className="w-1.5 h-1.5 rounded-full bg-gold-100 animate-dot3" />
+    </div>
+  )
+}
+
     <div className="flex items-center gap-1 px-4 py-3 glass-soft rounded-card w-fit">
       <span className="w-1.5 h-1.5 rounded-full bg-paper-50/60 animate-dot1" />
       <span className="w-1.5 h-1.5 rounded-full bg-paper-50/60 animate-dot2" />
@@ -284,27 +320,39 @@ export default function ChatModal({ open, onClose, productSlug = null }: ChatMod
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 space-y-4">
+        <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-6 space-y-6">
           {messages.map((msg, i) => (
-            <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[85%] ${msg.role === 'user' ? 'items-end' : 'items-start'} flex flex-col gap-2`}>
+            <div key={i} className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+              
+              {/* Avatar Assistant */}
+              {msg.role === 'assistant' && (
+                <div className="w-8 h-8 rounded-full border border-stroke-18 bg-ink-950 flex items-center justify-center shrink-0 mt-auto mb-1 shadow-glow ring-1 ring-gold-100/20">
+                  <span className="font-serif text-xs text-gold-100 italic">M</span>
+                </div>
+              )}
+
+              <div className={`max-w-[85%] flex flex-col gap-2 ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
+                
                 {/* Bubble */}
                 <div
                   className={`
-                    px-4 py-3 rounded-card text-ui leading-relaxed whitespace-pre-line
+                    px-5 py-3 text-sm leading-relaxed shadow-md backdrop-blur-md
                     ${msg.role === 'user'
-                      ? 'bg-gold-30 text-paper-50 border border-[rgba(214,181,109,0.3)] ml-auto'
-                      : 'glass-soft text-paper-50/90'
+                      ? 'bg-gold-100 text-ink-950 rounded-2xl rounded-br-none ml-8 font-medium'
+                      : 'bg-ink-800/80 border border-stroke-12 text-paper-50 rounded-2xl rounded-bl-none shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)]'
                     }
                   `}
                 >
-                  {msg.content}
+                  <RichText content={msg.content} />
                 </div>
 
                 {/* Recommendations */}
                 {msg.recos && msg.recos.length > 0 && (
-                  <div className="w-full space-y-3 mt-1">
-                    <DividerGoldHairline />
+                  <div className="w-full space-y-3 mt-2 animate-fade-up">
+                    <div className="flex items-center gap-2 mb-2 opacity-50">
+                      <div className="h-px bg-gold-100 w-8" />
+                      <span className="text-[10px] uppercase tracking-widest text-gold-100">La Sélection</span>
+                    </div>
                     {msg.recos.map(reco => (
                       <RecoCard key={reco.slug} reco={reco} />
                     ))}
@@ -315,14 +363,19 @@ export default function ChatModal({ open, onClose, productSlug = null }: ChatMod
           ))}
 
           {typing && (
-            <div className="flex justify-start">
+            <div className="flex gap-3 items-end">
+               <div className="w-8 h-8 rounded-full border border-stroke-18 bg-ink-950 flex items-center justify-center shrink-0 mb-1">
+                  <span className="font-serif text-xs text-gold-100 italic">M</span>
+                </div>
               <TypingIndicator />
             </div>
           )}
 
           {error && (
-            <div className="glass-soft border border-[rgba(255,90,106,0.3)] rounded-card px-4 py-3 text-caption text-danger">
-              {error}
+             <div className="flex justify-center my-4">
+                <div className="bg-red-950/30 border border-red-500/20 rounded-full px-4 py-2 text-xs text-red-200 backdrop-blur-sm">
+                  {error}
+                </div>
             </div>
           )}
 
