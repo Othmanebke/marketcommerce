@@ -92,25 +92,3 @@ export default function Accordion({ items, title, id, children, className = '' }
     </div>
   )
 }
-
-              </span>
-            </button>
-            <div
-              id={`accordion-${item.id}`}
-              role="region"
-              hidden={!isOpen}
-              className={`
-                overflow-hidden transition-all duration-reveal ease-luxury
-                ${isOpen ? 'pb-4' : ''}
-              `}
-            >
-              <div className="text-ui text-paper-50/60 leading-relaxed">
-                {item.content}
-              </div>
-            </div>
-          </div>
-        )
-      })}
-    </div>
-  )
-}
