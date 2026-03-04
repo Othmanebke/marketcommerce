@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { HeroSection } from '@/components/marketing/HeroSection'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import DividerGoldHairline from '@/components/ui/Divider'
+import GlassCard from '@/components/ui/GlassCard'
 
 export const metadata: Metadata = {
   title: 'La Maison — Notre Philosophie',

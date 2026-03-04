@@ -271,7 +271,7 @@ export default function HomePage() {
       ════════════════════════════════════════════ */}
       <section className="relative h-[75vh] min-h-[520px] flex items-center justify-center overflow-hidden">
         <div
-          className="absolute inset-0 bg-fixed bg-cover bg-center bg-[center_35%]"
+          className="absolute inset-0 bg-fixed bg-cover bg-[center_35%]"
           style={{ backgroundImage: "url('https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?w=1920&q=85')" }}
         />
         <div className="absolute inset-0 bg-ink-950/65" />
