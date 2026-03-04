@@ -78,14 +78,6 @@ function TypingIndicator() {
   )
 }
 
-    <div className="flex items-center gap-1 px-4 py-3 glass-soft rounded-card w-fit">
-      <span className="w-1.5 h-1.5 rounded-full bg-paper-50/60 animate-dot1" />
-      <span className="w-1.5 h-1.5 rounded-full bg-paper-50/60 animate-dot2" />
-      <span className="w-1.5 h-1.5 rounded-full bg-paper-50/60 animate-dot3" />
-    </div>
-  )
-}
-
 // ── Reco card ──
 function RecoCard({ reco }: { reco: Reco }) {
   return (
