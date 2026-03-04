@@ -49,17 +49,3 @@ export default function Chip({
     </button>
   )
 }
-          selected
-            ? 'bg-gold-100/10 border-gold-100 text-gold-100'
-            : 'bg-transparent border-stroke-12 text-paper-50/70 hover:border-gold-100/50 hover:text-paper-50'
-        }
-        disabled:opacity-20 disabled:pointer-events-none
-        focus-visible:outline-none focus:border-gold-100
-        ${className}
-      `}
-      {...props}
-    >
-      {children}
-    </button>
-  )
-}
