@@ -92,22 +92,7 @@ export default function Accordion({ items, title, id, children, className = '' }
     </div>
   )
 }
-                w-full flex items-center justify-between
-                py-4 text-left
-                text-ui text-paper-50/80 hover:text-paper-50
-                transition-colors duration-micro ease-luxury
-                focus-visible:outline focus-visible:outline-1 focus-visible:outline-[rgba(214,181,109,0.6)]
-              "
-            >
-              <span className="font-medium">{item.label}</span>
-              <span
-                aria-hidden="true"
-                className={`
-                  text-gold-100 text-lg leading-none transition-transform duration-micro ease-luxury
-                  ${isOpen ? 'rotate-45' : 'rotate-0'}
-                `}
-              >
-                +
+
               </span>
             </button>
             <div

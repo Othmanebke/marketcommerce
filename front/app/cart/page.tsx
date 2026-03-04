@@ -44,7 +44,7 @@ export default function CartPage() {
           <ScrollReveal delay={0.1}>
             <div className="text-center py-24 border border-stroke-12 rounded-card bg-paper-50/5 backdrop-blur-sm">
               <p className="font-serif text-2xl text-paper-50/40 mb-8">Le vide appelle la création.</p>
-              <Link href="/shop">
+              <Link href="/collection">
                 <Button variant="primary">Explorer la collection</Button>
               </Link>
             </div>
