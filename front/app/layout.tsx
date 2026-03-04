@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Navbar from '@/components/layout/Navbar'
+import AppShell from '@/components/layout/AppShell'
 import Footer from '@/components/layout/Footer'
 import { ToastContainer } from '@/components/ui/Toast'
 import ChatLauncher from '@/components/chat/ChatLauncher'
@@ -16,8 +16,8 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL ?? 'https://maison.fr'
   ),
   openGraph: {
-    type: 'website',
-    locale: 'fr_FR',
+    type:     'website',
+    locale:   'fr_FR',
     siteName: 'Maison',
   },
   twitter: { card: 'summary_large_image' },
@@ -51,7 +51,8 @@ export default function RootLayout({
           Aller au contenu principal
         </a>
 
-        <Navbar />
+        {/* AppShell manages: Navbar + CartDrawer + SearchOverlay */}
+        <AppShell />
 
         <main id="main-content" className="flex-1">
           {children}

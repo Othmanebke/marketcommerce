@@ -3,33 +3,35 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useCart } from '@/hooks/useCart'
 
-const navLinks = [
+const leftLinks  = [
   { href: '/collection', label: 'Collection' },
   { href: '/maison',     label: 'Maison'     },
+]
+const rightLinks = [
   { href: '/journal',    label: 'Journal'    },
   { href: '/contact',    label: 'Contact'    },
 ]
 
 interface NavbarProps {
-  cartCount?: number
+  onCartOpen:   () => void
+  onSearchOpen: () => void
 }
 
-export default function Navbar({ cartCount = 0 }: NavbarProps) {
-  const [scrolled, setScrolled]   = useState(false)
-  const [menuOpen, setMenuOpen]   = useState(false)
+export default function Navbar({ onCartOpen, onSearchOpen }: NavbarProps) {
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const { totalQty }            = useCart()
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 40)
+    const handler = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handler, { passive: true })
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
-  // Close mobile menu on ESC
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setMenuOpen(false)
-    }
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false) }
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
   }, [])
@@ -37,49 +39,36 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
   return (
     <>
       <motion.header
-        initial={{ y: -100, opacity: 0 }}
+        initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
         role="banner"
         className={`
           fixed top-0 left-0 right-0 z-50
           transition-all duration-700
           ${scrolled
-            ? 'bg-ink-950/80 backdrop-blur-xl border-b border-stroke-12 py-2'
-            : 'bg-transparent border-b border-transparent py-4'
+            ? 'bg-ink-950/92 backdrop-blur-xl border-b border-stroke-12'
+            : 'bg-transparent'
           }
         `}
       >
+        {/* Gold hairline — always at very top */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-100/20 to-transparent" />
+
         <nav
           aria-label="Navigation principale"
-          className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between"
+          className="max-w-[1440px] mx-auto px-8 md:px-14 h-[72px] grid grid-cols-[1fr_auto_1fr] items-center"
         >
-          {/* Logo */}
-          <Link
-            href="/"
-            className="
-              font-serif text-2xl tracking-[0.2em] text-paper-50
-              hover:text-gold-100 transition-colors duration-500
-              focus-visible:outline-none
-            "
-            aria-label="Maison — Accueil"
-          >
-            Maison
-          </Link>
-
-          {/* Links desktop */}
-          <ul
-            role="list"
-            className="hidden md:flex items-center gap-10"
-          >
-            {navLinks.map(link => (
+          {/* ── Left links ── */}
+          <ul role="list" className="hidden md:flex items-center gap-10">
+            {leftLinks.map(link => (
               <li key={link.href}>
                 <Link
                   href={link.href}
                   className="
-                    text-[10px] uppercase tracking-[0.25em] text-paper-50/70
-                    hover:text-gold-100
-                    transition-colors duration-500
+                    draw-underline
+                    text-[9px] uppercase tracking-[0.32em] text-paper-50/50
+                    hover:text-paper-50 transition-colors duration-500
                     focus-visible:outline-none
                   "
                 >
@@ -89,106 +78,196 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
             ))}
           </ul>
 
-          {/* Icons */}
-          <div className="flex items-center gap-3">
-            {/* Search */}
-            <Link
-              href="/search"
-              aria-label="Rechercher"
-              className="
-                w-9 h-9 flex items-center justify-center rounded-full
-                text-paper-50/60 hover:text-paper-50 hover:bg-glass-08
-                transition-all duration-micro ease-luxury
-              "
-            >
-              <SearchIcon />
-            </Link>
+          {/* ── Center logo ── */}
+          <Link
+            href="/"
+            aria-label="Maison — Accueil"
+            className="
+              font-serif text-[17px] tracking-[0.55em] uppercase
+              text-paper-50 hover:text-gold-100
+              transition-colors duration-700 focus-visible:outline-none
+              select-none
+            "
+          >
+            Maison
+          </Link>
 
-            {/* Cart */}
-            <Link
-              href="/panier"
-              aria-label={`Panier — ${cartCount} article${cartCount !== 1 ? 's' : ''}`}
-              className="
-                w-9 h-9 flex items-center justify-center rounded-full relative
-                text-paper-50/60 hover:text-paper-50 hover:bg-glass-08
-                transition-all duration-micro ease-luxury
-              "
-            >
-              <CartIcon />
-              {cartCount > 0 && (
-                <span
-                  aria-hidden="true"
-                  className="
-                    absolute -top-0.5 -right-0.5
-                    w-4 h-4 flex items-center justify-center
-                    rounded-full bg-gold-100 text-ink-950
-                    text-[10px] font-semibold leading-none
-                  "
-                >
-                  {cartCount > 9 ? '9+' : cartCount}
-                </span>
-              )}
-            </Link>
+          {/* ── Right: links + icons ── */}
+          <div className="flex items-center gap-10 justify-end">
+            <ul role="list" className="hidden md:flex items-center gap-10">
+              {rightLinks.map(link => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="
+                      draw-underline
+                      text-[9px] uppercase tracking-[0.32em] text-paper-50/50
+                      hover:text-paper-50 transition-colors duration-500
+                      focus-visible:outline-none
+                    "
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
-            {/* Hamburger mobile */}
-            <button
-              type="button"
-              aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-              onClick={() => setMenuOpen(v => !v)}
-              className="
-                md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-full
-                text-paper-50/60 hover:text-paper-50 hover:bg-glass-08
-                transition-all duration-micro ease-luxury
-              "
-            >
-              <span className={`block w-4 h-px bg-current transition-all duration-micro ${menuOpen ? 'rotate-45 translate-y-[5px]' : ''}`} />
-              <span className={`block w-4 h-px bg-current transition-all duration-micro ${menuOpen ? 'opacity-0' : ''}`} />
-              <span className={`block w-4 h-px bg-current transition-all duration-micro ${menuOpen ? '-rotate-45 -translate-y-[5px]' : ''}`} />
-            </button>
+            {/* Icons cluster */}
+            <div className="flex items-center gap-1">
+              {/* Search */}
+              <button
+                type="button"
+                onClick={onSearchOpen}
+                aria-label="Ouvrir la recherche"
+                className="
+                  w-9 h-9 flex items-center justify-center rounded-full
+                  text-paper-50/45 hover:text-paper-50 hover:bg-glass-08
+                  transition-all duration-300 focus-visible:outline-none
+                "
+              >
+                <SearchIcon />
+              </button>
+
+              {/* Cart */}
+              <button
+                type="button"
+                onClick={onCartOpen}
+                aria-label={`Ouvrir le panier — ${totalQty} article${totalQty !== 1 ? 's' : ''}`}
+                className="
+                  relative w-9 h-9 flex items-center justify-center rounded-full
+                  text-paper-50/45 hover:text-paper-50 hover:bg-glass-08
+                  transition-all duration-300 focus-visible:outline-none
+                "
+              >
+                <CartIcon />
+                <AnimatePresence>
+                  {totalQty > 0 && (
+                    <motion.span
+                      key="badge"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0, opacity: 0 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                      aria-hidden="true"
+                      className="
+                        absolute -top-0.5 -right-0.5
+                        w-[18px] h-[18px] flex items-center justify-center
+                        rounded-full bg-gold-100 text-ink-950
+                        text-[9px] font-bold leading-none
+                      "
+                    >
+                      {totalQty > 9 ? '9+' : totalQty}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </button>
+
+              {/* Hamburger — mobile only */}
+              <button
+                type="button"
+                aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+                aria-expanded={menuOpen}
+                onClick={() => setMenuOpen(v => !v)}
+                className="
+                  md:hidden ml-1 w-9 h-9 flex flex-col items-center justify-center gap-[5px]
+                  text-paper-50/50 hover:text-paper-50 transition-colors duration-300
+                  focus-visible:outline-none
+                "
+              >
+                <span className={`block h-px bg-current transition-all duration-400 ${menuOpen ? 'w-5 rotate-45 translate-y-[5px]' : 'w-5'}`} />
+                <span className={`block h-px bg-current transition-all duration-400 ${menuOpen ? 'w-0 opacity-0' : 'w-3.5 ml-[-3px]'}`} />
+                <span className={`block h-px bg-current transition-all duration-400 ${menuOpen ? 'w-5 -rotate-45 -translate-y-[5px]' : 'w-5'}`} />
+              </button>
+            </div>
           </div>
         </nav>
       </motion.header>
 
-      {/* Mobile menu */}
+      {/* ── Fullscreen Mobile Menu ── */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            id="mobile-menu"
+            key="mobile-menu"
+            initial={{ opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
+            animate={{ opacity: 1, clipPath: 'inset(0 0 0% 0)' }}
+            exit={{ opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            id="mobile-nav"
             role="dialog"
-            aria-label="Menu de navigation"
+            aria-label="Menu principal"
             aria-modal="true"
-            className="fixed inset-0 z-40 md:hidden glass-med flex flex-col pt-16"
+            className="fixed inset-0 z-40 md:hidden bg-ink-950 flex flex-col"
           >
-            <nav className="flex flex-col gap-1 p-6">
-              {navLinks.map((link, i) => (
+            {/* Top bar in menu */}
+            <div className="h-[72px] flex items-center justify-between px-8 border-b border-stroke-12">
+              <Link
+                href="/"
+                onClick={() => setMenuOpen(false)}
+                className="font-serif text-[17px] tracking-[0.55em] uppercase text-paper-50"
+              >
+                Maison
+              </Link>
+              <button
+                type="button"
+                onClick={() => setMenuOpen(false)}
+                className="w-9 h-9 flex items-center justify-center text-paper-50/40 hover:text-paper-50 transition-colors"
+                aria-label="Fermer le menu"
+              >
+                <CloseIcon />
+              </button>
+            </div>
+
+            {/* Links */}
+            <nav className="flex-1 flex flex-col items-start justify-center px-10 gap-1">
+              {[...leftLinks, ...rightLinks].map((link, i) => (
                 <motion.div
                   key={link.href}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.1, ease: 'easeOut' }}
+                  transition={{ duration: 0.55, delay: 0.1 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <Link
                     href={link.href}
                     onClick={() => setMenuOpen(false)}
                     className="
-                      block py-4 px-4 rounded-card
-                      font-serif text-heading-sm text-paper-50
-                      hover:bg-glass-08 hover:text-gold-100
-                      transition-all duration-micro ease-luxury
-                      border-b border-stroke-12
+                      block py-4 font-serif text-5xl text-paper-50
+                      hover:text-gold-100 transition-colors duration-500
                     "
                   >
                     {link.label}
                   </Link>
                 </motion.div>
               ))}
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="mt-10 flex items-center gap-6"
+              >
+                <button
+                  type="button"
+                  onClick={() => { setMenuOpen(false); onSearchOpen() }}
+                  className="text-[9px] uppercase tracking-[0.35em] text-paper-50/40 hover:text-gold-100 transition-colors flex items-center gap-2"
+                >
+                  <SearchIcon small /> Rechercher
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setMenuOpen(false); onCartOpen() }}
+                  className="text-[9px] uppercase tracking-[0.35em] text-paper-50/40 hover:text-gold-100 transition-colors flex items-center gap-2"
+                >
+                  <CartIcon small /> Panier {totalQty > 0 ? `(${totalQty})` : ''}
+                </button>
+              </motion.div>
             </nav>
+
+            {/* Bottom */}
+            <div className="px-10 py-8 border-t border-stroke-12">
+              <p className="text-[8px] uppercase tracking-[0.35em] text-paper-50/20">
+                Parfumerie de création — France
+              </p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -196,21 +275,33 @@ export default function Navbar({ cartCount = 0 }: NavbarProps) {
   )
 }
 
-function SearchIcon() {
+// ── Icons ──────────────────────────────────────────
+
+function SearchIcon({ small }: { small?: boolean }) {
+  const s = small ? 14 : 16
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M11 11L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+    <svg width={s} height={s} viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.4"/>
+      <path d="M11 11L14.5 14.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
     </svg>
   )
 }
 
-function CartIcon() {
+function CartIcon({ small }: { small?: boolean }) {
+  const s = small ? 14 : 16
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="M2 2h1.5l2 7h6l1.5-5H5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <circle cx="7" cy="13" r="1" fill="currentColor"/>
-      <circle cx="11" cy="13" r="1" fill="currentColor"/>
+    <svg width={s} height={s} viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M1.5 1.5h2l2 8h7l2-5.5H5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+      <circle cx="7" cy="13.5" r="1" fill="currentColor"/>
+      <circle cx="11" cy="13.5" r="1" fill="currentColor"/>
+    </svg>
+  )
+}
+
+function CloseIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path d="M4 4L14 14M14 4L4 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
     </svg>
   )
 }

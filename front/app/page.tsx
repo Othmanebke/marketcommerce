@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import GlassCard from '@/components/ui/GlassCard'
 import ProductCard, { type ProductCardData } from '@/components/commerce/ProductCard'
-import { HeroSection } from '@/components/marketing/HeroSection'
+import { HeroSection }  from '@/components/marketing/HeroSection'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { MarqueeStrip } from '@/components/ui/MarqueeStrip'
 
@@ -13,114 +12,232 @@ export const metadata: Metadata = {
 }
 
 const BESTSELLERS: ProductCardData[] = [
-  { slug: 'noir-velours', name: 'Noir Velours', concentration: 'Extrait de Parfum', priceFromCents: 22000, heroImageUrl: 'https://images.unsplash.com/photo-1541643600914-78b084683702?w=800&q=80', badges: ['Atelier'] },
-  { slug: 'bleu-mineral', name: 'Bleu Minéral', concentration: 'Eau de Parfum', priceFromCents: 16000, heroImageUrl: 'https://images.unsplash.com/photo-1588514912908-53abc9d9c399?w=800&q=80', badges: ['Nouveau'] },
-  { slug: 'or-solaire', name: 'Or Solaire', concentration: 'Eau de Parfum', priceFromCents: 18000, heroImageUrl: 'https://images.unsplash.com/photo-1600612253971-1e40651e8ef6?w=800&q=80' },
-  { slug: 'iris-blanc', name: 'Iris Blanc', concentration: 'Extrait de Parfum', priceFromCents: 26000, heroImageUrl: 'https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?w=800&q=80', badges: ['Édition limitée'] },
+  { slug: 'noir-velours', name: 'Noir Velours',  concentration: 'Extrait de Parfum', priceFromCents: 22000, heroImageUrl: 'https://images.unsplash.com/photo-1541643600914-78b084683702?w=800&q=80', badges: ['Atelier'] },
+  { slug: 'bleu-mineral', name: 'Bleu Minéral',  concentration: 'Eau de Parfum',     priceFromCents: 16000, heroImageUrl: 'https://images.unsplash.com/photo-1588514912908-53abc9d9c399?w=800&q=80', badges: ['Nouveau'] },
+  { slug: 'or-solaire',   name: 'Or Solaire',    concentration: 'Eau de Parfum',     priceFromCents: 18000, heroImageUrl: 'https://images.unsplash.com/photo-1600612253971-1e40651e8ef6?w=800&q=80' },
+  { slug: 'iris-blanc',   name: 'Iris Blanc',    concentration: 'Extrait de Parfum', priceFromCents: 26000, heroImageUrl: 'https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?w=800&q=80', badges: ['Édition limitée'] },
 ]
 
 const UNIVERS = [
-  { id: 'noir', label: 'Noir Velours', tagline: 'Profond. Résine. Fumé.', href: '/collection?vibe=noir-velours', image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=1200&q=80' },
-  { id: 'or', label: 'Or Solaire', tagline: 'Chaleur ambrée. Lumière.', href: '/collection?vibe=or-solaire', image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=1200&q=80' },
-  { id: 'bleu', label: 'Bleu Minéral', tagline: 'Frais. Propre. Élégant.', href: '/collection?vibe=bleu-mineral', image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=1200&q=80' },
+  {
+    id:      'noir',
+    label:   'Noir Velours',
+    tagline: 'Résine. Fumée. Profondeur.',
+    note:    '01',
+    href:    '/collection?vibe=noir-velours',
+    image:   'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=1400&q=85',
+  },
+  {
+    id:      'or',
+    label:   'Or Solaire',
+    tagline: 'Ambre chaud. Lumière.',
+    note:    '02',
+    href:    '/collection?vibe=or-solaire',
+    image:   'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&q=80',
+  },
+  {
+    id:      'bleu',
+    label:   'Bleu Minéral',
+    tagline: 'Frais. Propre. Élégant.',
+    note:    '03',
+    href:    '/collection?vibe=bleu-mineral',
+    image:   'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800&q=80',
+  },
 ]
 
 const JOURNAL_POSTS = [
-  { slug: 'le-role-du-fond', title: 'Le rôle des notes de fond', excerpt: 'Comment le vétiver, l\'ambre et la résine construisent la persistance.', tag: 'Matières', image: 'https://images.unsplash.com/photo-1596091831165-10b9c5ef7c46?w=800&q=80' },
-  { slug: 'concentration-extrait', title: 'Pourquoi l\'Extrait', excerpt: 'La concentration maximale : moins de surface, plus de durée, plus de présence.', tag: 'Atelier', image: 'https://images.unsplash.com/photo-1607026246836-d3c0bc2e55fa?w=800&q=80' },
-  { slug: 'rituel-application', title: 'Le rituel d\'application', excerpt: 'Points de chaleur, superposition, moment : les gestes qui font durer.', tag: 'Rituels', image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=800&q=80' },
+  { slug: 'le-role-du-fond',       title: 'Le rôle des notes de fond',    excerpt: 'Comment le vétiver, l\'ambre et la résine construisent la persistance d\'un parfum.', tag: 'Matières', image: 'https://images.unsplash.com/photo-1596091831165-10b9c5ef7c46?w=800&q=80' },
+  { slug: 'concentration-extrait', title: 'Pourquoi l\'Extrait',           excerpt: 'La concentration maximale : moins d\'eau, plus de durée, plus de présence.', tag: 'Atelier',  image: 'https://images.unsplash.com/photo-1607026246836-d3c0bc2e55fa?w=800&q=80' },
+  { slug: 'rituel-application',    title: 'Le rituel d\'application',      excerpt: 'Points de chaleur, superposition, moment — les gestes qui font durer.', tag: 'Rituels',  image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=800&q=80' },
+]
+
+const SAVOIR_FAIRE = [
+  { num: '100 %', label: 'Naturel', desc: 'Essences et absolues sélectionnées avec rigueur' },
+  { num: '8',     label: 'Semaines', desc: 'De macération lente pour chaque création' },
+  { num: '0',     label: 'Compromis', desc: 'Sur la qualité des matières premières' },
 ]
 
 export default function HomePage() {
   return (
-    <div className="bg-ink-950 min-h-screen selection:bg-gold-100/30 selection:text-gold-100">
-      {/* ── IMMERSIVE HERO WITH SLOW ZOOM ── */}
-      <HeroSection 
-        title="La Signature de l'Invisible" 
-        subtitle="Où le parfum devient une extension de l'âme." 
-        backgroundImage="https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&q=80&w=2000"
+    <div className="bg-ink-950 min-h-screen">
+
+      {/* ════════════════════════════════════════════
+          HERO — Editorial, bottom-left
+      ════════════════════════════════════════════ */}
+      <HeroSection
+        eyebrow="Collection Permanente"
+        title="La Signature de l'Invisible"
+        subtitle="Où le parfum cesse d'être un accessoire pour devenir une extension de l'âme."
+        backgroundImage="https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&q=85&w=2400"
+        align="left"
       >
-        <div className="flex flex-col md:flex-row items-center justify-center gap-8 w-full mt-12">
+        <div className="flex items-center gap-8">
           <Link
             href="/collection"
-            className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-btn px-8 py-4 font-sans tracking-widest uppercase text-sm bg-gold-100 text-ink-950 transition-all duration-[600ms] hover:scale-105 hover:shadow-[0_0_40px_rgba(214,181,109,0.4)]"
+            className="
+              group inline-flex items-center gap-3
+              text-[10px] uppercase tracking-[0.4em] text-ink-950 font-medium
+              bg-paper-50 hover:bg-gold-100
+              px-8 py-4 transition-colors duration-500
+            "
           >
-            <span className="relative z-10 flex items-center gap-2 font-medium">
-              Découvrir la Collection <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </span>
+            Explorer la Collection
+            <span className="group-hover:translate-x-1 transition-transform duration-300 inline-block">→</span>
+          </Link>
+          <Link
+            href="/maison"
+            className="text-[9px] uppercase tracking-[0.4em] text-paper-50/50 hover:text-gold-100 transition-colors duration-500 pb-px border-b border-paper-50/20 hover:border-gold-100/40"
+          >
+            Notre Histoire
           </Link>
         </div>
       </HeroSection>
 
-      <MarqueeStrip speed="slow" className="py-6 border-y border-stroke-12 bg-ink-950/50 backdrop-blur-md overflow-hidden">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <span key={i} className="text-gold-100/70 text-sm uppercase tracking-[0.2em] px-12 font-medium">
-            ✦ Sillage persistant ✦ Extraits purs ✦ Fabriqué en France ✦ Flacons ressourçables
-          </span>
-        ))}
-      </MarqueeStrip>
+      {/* ════════════════════════════════════════════
+          MARQUEE
+      ════════════════════════════════════════════ */}
+      <div className="border-y border-stroke-12 bg-ink-900/60 backdrop-blur-sm overflow-hidden">
+        <MarqueeStrip speed="slow" className="py-5">
+          {Array.from({ length: 10 }).map((_, i) => (
+            <span key={i} className="text-[9px] uppercase tracking-[0.35em] text-gold-100/60 px-10">
+              ✦ Macération lente ✦ Extraits purs ✦ Fabrication française ✦ Flacons ressourçables ✦ Livraison assurée
+            </span>
+          ))}
+        </MarqueeStrip>
+      </div>
 
-      {/* ── MANIFESTE POÉTIQUE (Negative Space) ── */}
-      <section className="py-40 px-6 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-stroke-12 to-gold-100/50" />
+      {/* ════════════════════════════════════════════
+          MANIFESTE — Negative space, typographique
+      ════════════════════════════════════════════ */}
+      <section className="py-48 px-8 relative overflow-hidden">
+        {/* Vertical decorative line */}
+        <div className="absolute top-0 left-1/2 w-px h-20 bg-gradient-to-b from-stroke-12 to-gold-100/40" />
+
         <ScrollReveal type="fade-up" duration={1.2}>
-          <div className="max-w-4xl mx-auto text-center relative z-10">
-            <span className="text-caption text-gold-100 uppercase tracking-widest mb-8 block">Le Manifeste</span>
-            <h2 className="font-serif text-heading-xl text-paper-50 leading-tight mb-10">
-              « Le parfum n'est pas fait pour masquer, <br className="hidden md:block"/>
-              <span className="text-paper-50/50 italic mr-2">il est fait pour</span> 
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-gold-100 to-amber-200 shadow-gold-100">révéler.</span> »
+          <div className="max-w-5xl mx-auto text-center">
+            <p className="text-[9px] uppercase tracking-[0.45em] text-gold-100 mb-10">
+              Notre Philosophie
+            </p>
+            <h2 className="font-serif text-[clamp(2rem,4.5vw,4rem)] text-paper-50 leading-[1.15] mb-10">
+              «&thinsp;Le parfum n'est pas fait pour masquer.
+              <br className="hidden md:block" />
+              <span className="text-paper-50/35 italic">&ensp;Il est fait pour&ensp;</span>
+              <span
+                className="text-gradient-gold"
+                style={{
+                  background: 'linear-gradient(135deg, #C9A85C 0%, #D6B56D 40%, #EDD992 70%, #D6B56D 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                révéler.
+              </span>
+              &thinsp;»
             </h2>
-            <p className="text-paper-50/60 max-w-2xl mx-auto leading-relaxed text-lg">
-              Loin des productions de masse, nous assemblons à la main des absolues rares et des essences précieuses. 
-              Chaque goutte est une promesse d'intensité, un voile de mystère qui vous habille bien après votre départ.
+            <p className="text-paper-50/45 max-w-2xl mx-auto leading-relaxed text-[15px] font-light">
+              Loin des productions standardisées, nous assemblons à la main des absolues rares
+              et des essences précieuses. Chaque flacon est une promesse d'intensité — un voile
+              de mystère qui vous habille longtemps après votre départ.
             </p>
           </div>
         </ScrollReveal>
       </section>
 
-      {/* ── ASYMMETRIC GRID: UNIVERS OLFACTIFS ── */}
-      <section className="py-24 px-6 bg-ink-900 border-y border-stroke-12 relative">
+      {/* ════════════════════════════════════════════
+          UNIVERS OLFACTIFS — Asymmetric editorial grid
+      ════════════════════════════════════════════ */}
+      <section className="py-8 px-8 bg-ink-900 border-y border-stroke-12">
         <div className="max-w-[1400px] mx-auto">
-          <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
+
+          {/* Section header */}
+          <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-8 pt-16">
             <ScrollReveal type="slide-right">
-              <h2 className="font-serif text-5xl md:text-7xl text-paper-50 tracking-tight">
-                Matières <br/><span className="text-gold-100 italic">Premières</span>
-              </h2>
+              <div>
+                <p className="text-[9px] uppercase tracking-[0.4em] text-gold-100 mb-5">Univers</p>
+                <h2 className="font-serif text-[clamp(3rem,6vw,5.5rem)] text-paper-50 leading-tight">
+                  Matières<br />
+                  <span className="italic text-paper-50/60">Premières</span>
+                </h2>
+              </div>
             </ScrollReveal>
             <ScrollReveal type="fade-in" delay={0.3}>
-              <p className="max-w-md text-paper-50/50 text-ui leading-relaxed text-left md:text-right">
-                Explorez nos trois univers sculptés autour des familles olfactives les plus nobles de la parfumerie.
-              </p>
+              <div className="md:max-w-xs md:text-right">
+                <p className="text-paper-50/40 text-[13px] leading-relaxed font-light mb-6">
+                  Trois univers sculptés autour des familles olfactives les plus nobles de la parfumerie artisanale.
+                </p>
+                <Link
+                  href="/collection"
+                  className="text-[9px] uppercase tracking-[0.35em] text-paper-50/40 hover:text-gold-100 transition-colors border-b border-stroke-12 hover:border-gold-100/30 pb-px"
+                >
+                  Toute la collection →
+                </Link>
+              </div>
             </ScrollReveal>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
-            {/* Big Feature Left */}
-            <div className="lg:col-span-7 h-[60vh] lg:h-[80vh]">
+          {/* Asymmetric grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 pb-16">
+            {/* Large left card */}
+            <div className="lg:col-span-7 h-[65vh] lg:h-[85vh]">
               <ScrollReveal className="h-full" type="fade-up">
-                <Link href={UNIVERS[0].href} className="group relative w-full h-full block rounded-2xl overflow-hidden will-change-transform">
-                  <Image src={UNIVERS[0].image} alt={UNIVERS[0].label} fill className="object-cover transition-transform duration-[2s] group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-1000" />
-                  <div className="absolute bottom-8 left-8 right-8 pointer-events-none">
-                    <span className="px-3 py-1 rounded-full border border-gold-100/30 text-gold-100 text-xs uppercase tracking-widest backdrop-blur-md mb-4 inline-block">Iconique</span>
-                    <h3 className="font-serif text-4xl text-paper-50 mb-2 group-hover:text-gold-100 transition-colors duration-700">{UNIVERS[0].label}</h3>
-                    <p className="text-paper-50/70 text-lg">{UNIVERS[0].tagline}</p>
+                <Link
+                  href={UNIVERS[0].href}
+                  className="group relative w-full h-full flex overflow-hidden"
+                >
+                  <Image
+                    src={UNIVERS[0].image}
+                    alt={UNIVERS[0].label}
+                    fill
+                    className="object-cover transition-transform duration-[2.5s] ease-out group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink-950/95 via-ink-950/30 to-transparent" />
+
+                  {/* Number watermark */}
+                  <span className="absolute top-6 right-8 font-serif text-[80px] leading-none text-paper-50/[0.06] select-none pointer-events-none font-bold">
+                    {UNIVERS[0].note}
+                  </span>
+
+                  <div className="absolute bottom-8 left-8 right-8">
+                    <p className="text-[8px] uppercase tracking-[0.4em] text-gold-100/70 mb-3">Signature</p>
+                    <h3 className="font-serif text-4xl text-paper-50 mb-2 group-hover:text-gold-100 transition-colors duration-700">
+                      {UNIVERS[0].label}
+                    </h3>
+                    <p className="text-paper-50/55 text-sm font-light">{UNIVERS[0].tagline}</p>
+                    <div className="mt-5 flex items-center gap-2 text-[9px] uppercase tracking-[0.35em] text-paper-50/0 group-hover:text-gold-100/80 transition-colors duration-700">
+                      <span className="w-6 h-px bg-gold-100/60" />
+                      Explorer
+                    </div>
                   </div>
                 </Link>
               </ScrollReveal>
             </div>
-            
-            {/* Two Stacked Right */}
-            <div className="lg:col-span-5 flex flex-col gap-6 lg:gap-10 h-[80vh] lg:h-[80vh]">
+
+            {/* Two right cards stacked */}
+            <div className="lg:col-span-5 flex flex-col gap-4">
               {UNIVERS.slice(1).map((u, i) => (
-                <ScrollReveal key={u.id} className="flex-1 min-h-0" type="fade-up" delay={i * 0.2 + 0.2}>
-                  <Link href={u.href} className="group relative w-full h-full block rounded-2xl overflow-hidden">
-                    <Image src={u.image} alt={u.label} fill className="object-cover transition-transform duration-[2s] group-hover:scale-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-1000" />
+                <ScrollReveal key={u.id} className="flex-1 min-h-0" type="fade-up" delay={i * 0.15 + 0.2}>
+                  <Link
+                    href={u.href}
+                    className="group relative w-full h-full min-h-[280px] flex overflow-hidden"
+                  >
+                    <Image
+                      src={u.image}
+                      alt={u.label}
+                      fill
+                      className="object-cover transition-transform duration-[2.5s] ease-out group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/20 to-transparent" />
+
+                    <span className="absolute top-5 right-6 font-serif text-[56px] leading-none text-paper-50/[0.06] select-none pointer-events-none font-bold">
+                      {u.note}
+                    </span>
+
                     <div className="absolute bottom-6 left-6 right-6">
-                      <h3 className="font-serif text-2xl text-paper-50 mb-1 group-hover:text-gold-100 transition-colors duration-700">{u.label}</h3>
-                      <p className="text-paper-50/70">{u.tagline}</p>
+                      <h3 className="font-serif text-2xl text-paper-50 mb-1 group-hover:text-gold-100 transition-colors duration-700">
+                        {u.label}
+                      </h3>
+                      <p className="text-paper-50/50 text-sm font-light">{u.tagline}</p>
                     </div>
                   </Link>
                 </ScrollReveal>
@@ -130,88 +247,229 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── BREATHTAKING PARALLAX BANNER (Savoir-faire) ── */}
-      <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?w=1920&q=85')] bg-fixed bg-cover bg-center"
+      {/* ════════════════════════════════════════════
+          SAVOIR-FAIRE — Chiffres clés
+      ════════════════════════════════════════════ */}
+      <section className="py-32 px-8 border-b border-stroke-12">
+        <div className="max-w-7xl mx-auto">
+          <ScrollReveal type="fade-up">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x divide-stroke-12">
+              {SAVOIR_FAIRE.map(({ num, label, desc }, i) => (
+                <div key={i} className="px-8 md:px-16 py-10 md:py-0 first:pl-0 last:pr-0 text-center md:text-left">
+                  <p className="font-serif text-[clamp(3rem,5vw,4.5rem)] text-gold-100 leading-none mb-3">{num}</p>
+                  <p className="text-[10px] uppercase tracking-[0.35em] text-paper-50 mb-2">{label}</p>
+                  <p className="text-paper-50/35 text-sm font-light leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════
+          PARALLAX INTERLUDE — Atelier
+      ════════════════════════════════════════════ */}
+      <section className="relative h-[75vh] min-h-[520px] flex items-center justify-center overflow-hidden">
+        <div
+          className="absolute inset-0 bg-fixed bg-cover bg-center bg-[center_35%]"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?w=1920&q=85')" }}
         />
-        <div className="absolute inset-0 bg-ink-950/60 backdrop-blur-[2px]" />
-        
+        <div className="absolute inset-0 bg-ink-950/65" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink-950/50 via-transparent to-ink-950/50" />
+
         <ScrollReveal type="scale-up" duration={1.2}>
-          <GlassCard variant="soft" hover={false} className="relative z-10 p-12 md:p-16 max-w-2xl text-center mx-4 border-gold-100/20 shadow-2xl">
-            <span className="text-3xl text-gold-100 mb-6 block">◈</span>
-            <h2 className="font-serif text-4xl text-paper-50 mb-6">L'Atelier Français</h2>
-            <p className="text-paper-50/70 text-lg leading-relaxed mb-8">
-              Macération lente. Embouteillage à la main. Un respect absolu du temps de maturation pour garantir une rémanence qui défie les heures.
+          <div className="relative z-10 px-8 text-center max-w-xl mx-auto">
+            <span className="block text-3xl text-gold-100/60 mb-6 font-serif">◈</span>
+            <h2 className="font-serif text-[clamp(2rem,4vw,3.5rem)] text-paper-50 leading-tight mb-6">
+              L'Atelier Français
+            </h2>
+            <div className="w-12 h-px bg-gold-100/40 mx-auto mb-6" />
+            <p className="text-paper-50/60 text-[14px] leading-relaxed font-light mb-10">
+              Macération lente. Embouteillage à la main. Un respect absolu
+              du temps de maturation pour garantir une rémanence qui défie les heures.
             </p>
-            <Link href="/maison" className="inline-flex items-center gap-2 text-gold-100 uppercase tracking-widest text-sm hover:text-paper-50 transition-colors duration-300">
-              Découvrir notre art <span className="text-lg">→</span>
+            <Link
+              href="/maison"
+              className="inline-flex items-center gap-3 text-[9px] uppercase tracking-[0.45em] text-gold-100 hover:text-paper-50 transition-colors duration-400"
+            >
+              <span className="w-6 h-px bg-current" />
+              Découvrir notre art
             </Link>
-          </GlassCard>
+          </div>
         </ScrollReveal>
       </section>
 
-      {/* ── BEST-SELLERS MINIMALIST CAROUSEL/GRID ── */}
-      <section className="py-32 px-6">
+      {/* ════════════════════════════════════════════
+          BESTSELLERS — Grille minimaliste
+      ════════════════════════════════════════════ */}
+      <section className="py-32 px-8">
         <div className="max-w-7xl mx-auto">
+
           <ScrollReveal type="fade-up">
-            <div className="flex flex-col items-center text-center mb-16">
-              <span className="text-caption text-gold-100 uppercase tracking-widest mb-4">La Sélection</span>
-              <h2 className="font-serif text-heading-lg text-paper-50 mb-6">Objets de Désir</h2>
-              <div className="h-px w-24 bg-stroke-12" />
+            <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-8">
+              <div>
+                <p className="text-[9px] uppercase tracking-[0.4em] text-gold-100 mb-4">Sélection</p>
+                <h2 className="font-serif text-[clamp(2.5rem,5vw,4rem)] text-paper-50 leading-tight">
+                  Objets<br /><span className="italic text-paper-50/50">de Désir</span>
+                </h2>
+              </div>
+              <Link
+                href="/collection"
+                className="text-[9px] uppercase tracking-[0.35em] text-paper-50/40 hover:text-gold-100 transition-colors border-b border-stroke-12 hover:border-gold-100/30 pb-px mb-1 self-end"
+              >
+                Explorer tout →
+              </Link>
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {BESTSELLERS.map((product, i) => (
-              <ScrollReveal key={product.slug} type="fade-up" delay={i * 0.1}>
+              <ScrollReveal key={product.slug} type="fade-up" delay={i * 0.08}>
                 <ProductCard product={product} priority={i < 2} />
               </ScrollReveal>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="mt-16 flex justify-center">
-            <Link
-              href="/collection"
-              className="px-8 py-3 rounded-full border border-stroke-12 text-paper-50/70 hover:text-gold-100 hover:border-gold-100 hover:bg-gold-100/5 transition-all duration-300 uppercase tracking-widest text-xs"
-            >
-              Explorer le vestiaire olfactif
-            </Link>
+      {/* ════════════════════════════════════════════
+          JOURNAL ÉDITORIAL
+      ════════════════════════════════════════════ */}
+      <section className="py-32 px-8 bg-ink-900 border-t border-stroke-12">
+        <div className="max-w-7xl mx-auto">
+
+          <ScrollReveal>
+            <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-8">
+              <div>
+                <p className="text-[9px] uppercase tracking-[0.4em] text-gold-100 mb-4">Édito</p>
+                <h2 className="font-serif text-[clamp(2.5rem,5vw,4rem)] text-paper-50 leading-tight">
+                  Journal de<br /><span className="italic text-paper-50/50">Création</span>
+                </h2>
+              </div>
+              <Link
+                href="/journal"
+                className="text-[9px] uppercase tracking-[0.35em] text-paper-50/40 hover:text-gold-100 transition-colors border-b border-stroke-12 hover:border-gold-100/30 pb-px self-end"
+              >
+                Tout lire →
+              </Link>
+            </div>
+          </ScrollReveal>
+
+          {/* Posts — large first, two smaller */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Featured large */}
+            <div className="lg:col-span-6">
+              <ScrollReveal type="fade-up">
+                <Link href={`/journal/${JOURNAL_POSTS[0].slug}`} className="group block">
+                  <div className="relative aspect-[4/3] overflow-hidden mb-6">
+                    <Image
+                      src={JOURNAL_POSTS[0].image}
+                      alt={JOURNAL_POSTS[0].title}
+                      fill
+                      className="object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink-950/60 via-transparent to-transparent" />
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1.5 border border-paper-50/20 bg-ink-950/50 backdrop-blur-md text-[8px] uppercase tracking-[0.3em] text-gold-100">
+                        {JOURNAL_POSTS[0].tag}
+                      </span>
+                    </div>
+                  </div>
+                  <h3 className="font-serif text-3xl text-paper-50 group-hover:text-gold-100 transition-colors duration-400 mb-3 leading-tight">
+                    {JOURNAL_POSTS[0].title}
+                  </h3>
+                  <p className="text-paper-50/45 text-sm leading-relaxed font-light line-clamp-2">
+                    {JOURNAL_POSTS[0].excerpt}
+                  </p>
+                </Link>
+              </ScrollReveal>
+            </div>
+
+            {/* Two stacked smaller */}
+            <div className="lg:col-span-6 flex flex-col gap-6">
+              {JOURNAL_POSTS.slice(1).map((post, i) => (
+                <ScrollReveal key={post.slug} type="fade-up" delay={i * 0.1 + 0.1}>
+                  <Link href={`/journal/${post.slug}`} className="group flex gap-5 items-start">
+                    <div className="relative w-32 h-24 shrink-0 overflow-hidden">
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        className="object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-[8px] uppercase tracking-[0.3em] text-gold-100/70 block mb-2">
+                        {post.tag}
+                      </span>
+                      <h3 className="font-serif text-xl text-paper-50 group-hover:text-gold-100 transition-colors duration-400 mb-2 leading-tight">
+                        {post.title}
+                      </h3>
+                      <p className="text-paper-50/40 text-[13px] leading-relaxed font-light line-clamp-2">
+                        {post.excerpt}
+                      </p>
+                    </div>
+                  </Link>
+                </ScrollReveal>
+              ))}
+
+              {/* Newsletter teaser */}
+              <ScrollReveal type="fade-up" delay={0.3}>
+                <div className="border border-stroke-12 p-6 mt-2 flex flex-col gap-4">
+                  <p className="text-[9px] uppercase tracking-[0.35em] text-gold-100">Newsletter</p>
+                  <p className="font-serif text-xl text-paper-50 leading-tight">
+                    Recevez nos créations en avant-première
+                  </p>
+                  <form className="flex gap-0 border border-stroke-12 overflow-hidden">
+                    <input
+                      type="email"
+                      placeholder="Votre adresse email"
+                      className="flex-1 bg-transparent px-4 py-3 text-[11px] text-paper-50 placeholder:text-paper-50/25 outline-none"
+                    />
+                    <button
+                      type="submit"
+                      className="px-5 py-3 bg-gold-100/10 hover:bg-gold-100 text-gold-100 hover:text-ink-950 text-[9px] uppercase tracking-[0.3em] transition-all duration-400 border-l border-stroke-12 shrink-0"
+                    >
+                      →
+                    </button>
+                  </form>
+                </div>
+              </ScrollReveal>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── EDITORIAL / JOURNAL ── */}
-      <section className="py-32 px-6 bg-ink-900 border-t border-stroke-12">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
-            <ScrollReveal>
-              <h2 className="font-serif text-5xl text-paper-50">Journal de<br/><span className="italic text-gold-100">Création</span></h2>
-            </ScrollReveal>
-            <ScrollReveal delay={0.2}>
-              <Link href="/journal" className="inline-flex items-center gap-2 text-ui text-paper-50/50 hover:text-gold-100 transition-colors duration-300">
-                Tout lire <span aria-hidden="true">→</span>
-              </Link>
-            </ScrollReveal>
-          </div>
+      {/* ════════════════════════════════════════════
+          BOTTOM CTA — Full width editorial
+      ════════════════════════════════════════════ */}
+      <section className="py-40 px-8 text-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-ink-900 to-ink-950" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-100/20 to-transparent" />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {JOURNAL_POSTS.map((post, i) => (
-              <ScrollReveal key={post.slug} type="fade-up" delay={i * 0.15}>
-                <Link href={`/journal/${post.slug}`} className="group block">
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-xl mb-6">
-                    <Image src={post.image} alt={post.title} fill className="object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
-                    <div className="absolute top-4 left-4 border border-paper-50/20 bg-ink-950/40 backdrop-blur-md px-3 py-1 rounded-full text-xs text-gold-100 uppercase tracking-widest">
-                      {post.tag}
-                    </div>
-                  </div>
-                  <h3 className="font-serif text-2xl text-paper-50 mb-3 group-hover:text-gold-100 transition-colors duration-300">{post.title}</h3>
-                  <p className="text-paper-50/50 text-sm leading-relaxed line-clamp-2">{post.excerpt}</p>
-                </Link>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
+        <ScrollReveal type="fade-up" className="relative z-10">
+          <p className="text-[9px] uppercase tracking-[0.45em] text-gold-100 mb-8">Commencez</p>
+          <h2 className="font-serif text-[clamp(2.5rem,5vw,5rem)] text-paper-50 leading-tight mb-8 max-w-2xl mx-auto">
+            Trouvez votre signature olfactive
+          </h2>
+          <p className="text-paper-50/40 text-[14px] font-light mb-12 max-w-md mx-auto leading-relaxed">
+            Chaque fragrance est un portrait. Lequel parle de vous ?
+          </p>
+          <Link
+            href="/collection"
+            className="
+              group inline-flex items-center gap-4
+              px-10 py-5 border border-stroke-18
+              text-[10px] uppercase tracking-[0.45em] text-paper-50
+              hover:border-gold-100/40 hover:text-gold-100
+              transition-all duration-600
+            "
+          >
+            Découvrir la Collection
+            <span className="group-hover:translate-x-1.5 transition-transform duration-400 inline-block">→</span>
+          </Link>
+        </ScrollReveal>
       </section>
     </div>
   )
