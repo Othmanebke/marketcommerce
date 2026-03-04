@@ -1,112 +1,115 @@
-import type { Metadata } from 'next'
+'use client'
+
+import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { HeroSection } from '@/components/marketing/HeroSection'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
-
-export const metadata: Metadata = {
-  title: 'Journal — Maison',
-  description: 'Notes, réflexions et explorations autour du parfum et de ses matières.',
-}
+import GlassCard from '@/components/ui/GlassCard'
+import Chip from '@/components/ui/Chip'
 
 const ARTICLES = [
   {
     slug: 'le-role-du-fond',
     title: 'Le rôle des notes de fond dans nos extraits',
     excerpt: "Pourquoi nos créations accordent une place si importante au vétiver, à l'ambre et à la résine. Analyse d'une structure tenace.",
-    category: 'Matières',
+    category: 'Savoir-faire',
     date: '12 Nov 2023',
     image: 'https://images.unsplash.com/photo-1596091831165-10b9c5ef7c46?w=800&q=80',
-    featured: true
+    readTime: '4 min'
   },
   {
     slug: 'concentration-extrait',
-    title: "Comprendre l'Extrait de Parfum",
-    excerpt: "Moins de surface, plus de durée, plus de présence. Démystification de la plus noble des concentrations.",
-    category: 'Savoir-Faire',
+    title: 'Pourquoi l\'Extrait ?',
+    excerpt: 'La concentration maximale : moins d\'eau, plus de durée, plus de présence. Un choix radical pour des parfums de peau.',
+    category: 'Atelier',
     date: '28 Oct 2023',
-    image: 'https://images.unsplash.com/photo-1607026246836-d3c0bc2e55fa?w=800&q=80'
+    image: 'https://images.unsplash.com/photo-1607026246836-d3c0bc2e55fa?w=800&q=80',
+    readTime: '3 min'
   },
   {
-    slug: 'rituel-application',
-    title: "Le rituel d'application",
-    excerpt: "Points de chaleur, superposition, hydratation : les gestes qui subliment le sillage et le rendent durable.",
-    category: 'Rituels',
-    date: '15 Sep 2023',
-    image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=800&q=80'
+    slug: 'macérats-longs',
+    title: 'L\'art de la macération longue',
+    excerpt: 'Le temps ne se rattrape pas. Découvrez pourquoi nous laissons nos jus reposer 6 semaines avant la mise en flacon.',
+    category: 'Technique',
+    date: '15 Oct 2023',
+    image: 'https://images.unsplash.com/photo-1616604212595-5807bbdb2142?w=800&q=80',
+    readTime: '6 min'
   },
   {
-    slug: 'iris-pallida',
-    title: "L'Or Bleu : L'Iris Pallida",
-    excerpt: "Voyage en Toscane à la découverte de l'une des matières les plus coûteuses et fascinantes de la palette du parfumeur.",
+    slug: 'vetiver-haiti',
+    title: 'Immersion : Le Vétiver d\'Haïti',
+    excerpt: 'Reportage au cœur des cultures de vétiver, une racine complexe, terreuse et fumée qui signe plusieurs de nos créations.',
     category: 'Matières',
-    date: '02 Sep 2023',
-    image: 'https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?w=800&q=80'
+    date: '02 Sept 2023',
+    image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&q=80',
+    readTime: '5 min'
   },
   {
-    slug: 'evolution-peau',
-    title: "La chimie de la peau",
-    excerpt: "Pourquoi un même parfum se révèle si différemment d'une personne à l'autre ? Notre peau comme ultime ingrédient.",
-    category: 'Science',
-    date: '20 Aou 2023',
-    image: 'https://images.unsplash.com/photo-1615397323755-1adb7e30d7cc?w=800&q=80'
+    slug: 'minimalisme-olfactif',
+    title: 'Le minimalisme olfactif',
+    excerpt: 'Dire plus avec moins. Comment épurons-nous nos formules pour ne garder que l\'essentiel et la lisibilité.',
+    category: 'Philosophie',
+    date: '10 Aout 2023',
+    image: 'https://images.unsplash.com/photo-1541643600914-78b084683702?w=800&q=80',
+    readTime: '3 min'
   }
 ]
 
 export default function JournalPage() {
   return (
-    <div className="min-h-screen bg-ink-950 pt-32 pb-24 px-6">
-      <ScrollReveal type="fade-up">
-        <div className="max-w-[1400px] mx-auto mb-24 border-b border-stroke-12 pb-16">
-          <p className="text-[10px] text-gold-100 uppercase tracking-[0.2em] mb-4">Éditorial</p>
-          <h1 className="font-serif text-5xl md:text-7xl text-paper-50 mb-6 tracking-tight">Le Journal</h1>
-          <p className="text-lg text-paper-50/60 max-w-xl font-light leading-relaxed italic">
-            Notes, réflexions et explorations autour du parfum. Une plongée intimiste dans notre processus créatif.
-          </p>
-        </div>
-      </ScrollReveal>
+    <main className="min-h-screen bg-ink-950 pb-32">
+      <HeroSection
+        title="Le Journal"
+        subtitle="Notes d'atelier, explorations de matières et réflexions sur le temps long de la parfumerie."
+        backgroundImage="https://images.unsplash.com/photo-1615484477745-a43424151366?w=1920&q=85&auto=format&fit=crop"
+        align="left"
+      />
 
-      <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-24 gap-x-12">
-        {ARTICLES.map((article, index) => (
-          <ScrollReveal 
-            key={article.slug} 
-            type="fade-up" 
-            delay={index * 0.1}
-            className={article.featured ? "md:col-span-2 lg:col-span-2" : ""}
-          >
-            <Link href={`/journal/${article.slug}`} className="block h-full cursor-pointer group">
-              <div className="flex flex-col h-full">
-                <div className={`relative w-full ${article.featured ? 'aspect-video' : 'aspect-[4/5]'} overflow-hidden border border-stroke-12 mb-8`}>
-                  <Image
-                    src={article.image}
-                    alt={article.title}
-                    fill
-                    className="object-cover transition-transform duration-[10s] ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute top-4 left-4 z-10">
-                    <span className="px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-ink-950 bg-gold-100">
-                      {article.category}
-                    </span>
+      <section className="px-6 max-w-[1400px] mx-auto -mt-20 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {ARTICLES.map((article, i) => (
+            <ScrollReveal key={article.slug} type="fade-up" delay={i * 0.1}>
+              <Link href={`/journal/${article.slug}`} className="group block h-full">
+                <GlassCard className="h-full overflow-hidden hover:border-gold-100/30 transition-colors duration-500 flex flex-col">
+                  {/* Image Zoom Effect */}
+                  <div className="relative aspect-[16/10] overflow-hidden shrink-0">
+                    <Image
+                      src={article.image}
+                      alt={article.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute top-4 left-4">
+                      <Chip variant="dark">{article.category}</Chip>
+                    </div>
                   </div>
-                </div>
-              <div className="flex flex-col flex-grow">
-                <span className="text-sm text-paper-50/40 mb-4 block font-light">{article.date}</span>
-                <h3 className="font-serif text-3xl md:text-4xl text-paper-50 mb-4 group-hover:text-gold-100 transition-colors duration-300 tracking-tight">
-                  {article.title}
-                </h3>
-                <p className="text-base text-paper-50/70 line-clamp-3 mb-8 font-light leading-relaxed flex-grow">
-                  {article.excerpt}
-                </p>
-                <div className="mt-auto">
-                  <span className="text-[11px] uppercase tracking-[0.2em] border-b border-gold-100/30 pb-1 text-gold-100 group-hover:border-gold-100 transition-colors duration-300 inline-flex items-center gap-2">
-                    Lire l'article <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
-                  </span>
-                </div>
-              </div>
-              </div>
-            </Link>
-          </ScrollReveal>
-        ))}
-      </div>
-    </div>
+                  
+                  <div className="p-6 md:p-8 flex flex-col flex-1">
+                     <div className="flex items-center gap-3 text-xs text-paper-50/40 mb-4 font-medium uppercase tracking-wider">
+                        <span>{article.date}</span>
+                        <span className="w-1 h-1 rounded-full bg-gold-100/50" />
+                        <span>{article.readTime}</span>
+                     </div>
+                     
+                     <h3 className="font-serif text-2xl text-paper-50 mb-3 group-hover:text-gold-100 transition-colors duration-300 line-clamp-2">
+                       {article.title}
+                     </h3>
+                     
+                     <p className="text-paper-50/60 leading-relaxed font-light line-clamp-3 mb-6 flex-1">
+                       {article.excerpt}
+                     </p>
+                     
+                     <div className="text-gold-100 text-sm font-medium flex items-center gap-2 group-hover:gap-4 transition-all pb-1 mt-auto">
+                        Lire l'article <span className="text-lg">→</span>
+                     </div>
+                  </div>
+                </GlassCard>
+              </Link>
+            </ScrollReveal>
+          ))}
+        </div>
+      </section>
+    </main>
   )
 }

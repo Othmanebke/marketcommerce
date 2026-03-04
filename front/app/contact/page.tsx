@@ -1,160 +1,149 @@
 'use client'
 
 import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import { HeroSection } from '@/components/marketing/HeroSection'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
+import GlassCard from '@/components/ui/GlassCard'
 import Button from '@/components/ui/Button'
+import DividerGoldHairline from '@/components/ui/Divider'
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: 'general',
-    message: ''
-  })
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle')
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('submitting')
-    // Mock API call
+    // Simulate API call
     setTimeout(() => {
       setStatus('success')
-      setFormData({ name: '', email: '', subject: 'general', message: '' })
-      setTimeout(() => setStatus('idle'), 3000)
-    }, 1200)
+    }, 1500)
   }
 
   return (
-    <div className="min-h-screen bg-ink-950 pt-32 pb-24 px-6 md:pt-40">
-      <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row gap-16 lg:gap-32">
-        
-        {/* Contact Info (Left) */}
-        <div className="w-full lg:w-1/3 flex flex-col gap-10">
-          <ScrollReveal type="slide-right">
-            <div>
-              <p className="text-[10px] text-gold-100 uppercase tracking-[0.2em] mb-4">Assistance</p>
-              <h1 className="font-serif text-5xl md:text-6xl text-paper-50 mb-6 tracking-tight">Contact</h1>
-              <p className="text-lg font-light text-paper-50/60 leading-relaxed mb-16 italic">
-                Notre service client est à votre disposition pour vous accompagner dans la découverte de nos créations, le suivi de vos commandes, ou toute autre demande.
-              </p>
-              <div className="border-t border-stroke-12 w-full mb-16" />
-            </div>
+    <main className="min-h-screen bg-ink-950 pb-32">
+      <HeroSection
+        title="Contact & Atelier"
+        subtitle="Une question sur une commande, un conseil olfactif ou une demande presse ? Nous sommes à votre écoute."
+        backgroundImage="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1920&q=85&auto=format&fit=crop"
+        align="left"
+      />
+
+      <section className="px-6 max-w-6xl mx-auto -mt-20 relative z-10">
+        <ScrollReveal type="fade-up">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
             
-            <div className="flex flex-col gap-12">
+            {/* Colonne d'infos */}
+            <GlassCard className="p-8 md:p-12 space-y-8 h-fit">
               <div>
-                <h3 className="text-sm font-medium text-paper-50 mb-4 uppercase tracking-widest">Par Téléphone</h3>
-                <p className="text-xl font-light text-paper-50/80">+33 (0)1 42 61 73 89</p>
-                <p className="text-[11px] text-paper-50/40 mt-2 uppercase tracking-wide">Lundi au Vendredi, 10h - 18h</p>
-              </div>
-              
-              <div>
-                <h3 className="text-sm font-medium text-paper-50 mb-4 uppercase tracking-widest">Par Email</h3>
-                <a href="mailto:contact@maison.com" className="text-xl font-light text-gold-100 hover:text-paper-50 transition-colors duration-300 border-b border-gold-100/30 hover:border-gold-100 pb-1">
-                  contact@maison.com
-                </a>
-                <p className="text-[11px] text-paper-50/40 mt-3 uppercase tracking-wide">Nous répondons sous 24h ouvrées</p>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-medium text-paper-50 mb-4 uppercase tracking-widest">Boutique Atelier</h3>
-                <p className="text-lg font-light text-paper-50/80 break-words leading-relaxed">
-                  42 Rue de Sévigné<br />
-                  75003 Paris, France
+                <h3 className="font-serif text-2xl text-paper-50 mb-4">L'Atelier</h3>
+                <p className="text-paper-50/60 font-light leading-relaxed">
+                  12 Rue des Archives<br/>
+                  75004 Paris, France<br/>
+                  <span className="text-sm opacity-60 mt-2 block">Sur rendez-vous uniquement.</span>
                 </p>
-                <a href="#" className="text-[10px] text-gold-100 uppercase tracking-[0.2em] hover:text-paper-50 transition-colors mt-6 inline-block border-b border-gold-100/30 hover:border-gold-100 pb-1">
-                  Itinéraire <span aria-hidden="true">→</span>
-                </a>
               </div>
-            </div>
-          </ScrollReveal>
-        </div>
 
-        {/* Contact Form (Right) */}
-        <div className="w-full lg:w-2/3">
-          <ScrollReveal type="fade-up" delay={0.2}>
-            <div className="p-8 md:p-16 border border-stroke-12 relative overflow-hidden bg-ink-950">
-              
-              <h2 className="font-serif text-3xl md:text-4xl text-paper-50 mb-12 relative z-10 tracking-tight">Envoyer un message</h2>
-              
-              <form onSubmit={handleSubmit} className="flex flex-col gap-8 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="flex flex-col gap-3">
-                    <label htmlFor="name" className="text-[10px] text-paper-50/60 uppercase tracking-[0.2em]">Nom complet</label>
-                    <input 
-                      type="text" 
-                      id="name" 
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      className="bg-transparent border-b border-stroke-12 px-0 py-3 text-paper-50 focus:outline-none focus:border-gold-100 transition-colors duration-300 font-light rounded-none"
-                    />
+              <DividerGoldHairline />
+
+              <div>
+                <h3 className="font-serif text-2xl text-paper-50 mb-4">Service Client</h3>
+                <p className="text-paper-50/60 font-light leading-relaxed mb-4">
+                  Du lundi au vendredi<br/>
+                  9h00 - 18h00
+                </p>
+                <a href="mailto:bonjour@maison.fr" className="text-gold-100 hover:text-paper-50 transition-colors block mb-1">bonjour@maison.fr</a>
+                <a href="tel:+33100000000" className="text-paper-50/60 hover:text-paper-50 transition-colors">+33 1 00 00 00 00</a>
+              </div>
+
+              <DividerGoldHairline />
+
+              <div>
+                <h3 className="font-serif text-2xl text-paper-50 mb-4">Presse & Partenariats</h3>
+                <a href="mailto:presse@maison.fr" className="text-gold-100 hover:text-paper-50 transition-colors">presse@maison.fr</a>
+              </div>
+            </GlassCard>
+
+            {/* Formulaire */}
+            <div className="bg-ink-900/40 backdrop-blur-md border border-stroke-12 p-8 md:p-12 rounded-card">
+              {status === 'success' ? (
+                <div className="h-full flex flex-col justify-center items-center text-center py-12">
+                   <div className="w-16 h-16 rounded-full border border-gold-100 flex items-center justify-center text-gold-100 text-2xl mb-6">✓</div>
+                   <h3 className="font-serif text-3xl text-paper-50 mb-4">Message reçu</h3>
+                   <p className="text-paper-50/60 font-light mb-8">
+                     Merci de nous avoir écrit. Notre équipe vous répondra<br/>sous 24 à 48 heures.
+                   </p>
+                   <Button variant="outline" onClick={() => setStatus('idle')}>Envoyer un autre message</Button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <h3 className="font-serif text-3xl text-paper-50 mb-8">Envoyer un message</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                       <label htmlFor="name" className="text-xs uppercase tracking-wider text-paper-50/40 font-medium">Nom</label>
+                       <input 
+                         required
+                         type="text" 
+                         id="name" 
+                         className="w-full bg-ink-950/50 border border-stroke-12 rounded focus:border-gold-100 focus:outline-none p-3 text-paper-50 transition-colors placeholder:text-paper-50/20"
+                         placeholder="Votre nom"
+                       />
+                    </div>
+                    <div className="space-y-2">
+                       <label htmlFor="email" className="text-xs uppercase tracking-wider text-paper-50/40 font-medium">Email</label>
+                       <input 
+                         required
+                         type="email" 
+                         id="email" 
+                         className="w-full bg-ink-950/50 border border-stroke-12 rounded focus:border-gold-100 focus:outline-none p-3 text-paper-50 transition-colors placeholder:text-paper-50/20"
+                         placeholder="votre@email.com"
+                       />
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-3">
-                    <label htmlFor="email" className="text-[10px] text-paper-50/60 uppercase tracking-[0.2em]">Email</label>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className="bg-transparent border-b border-stroke-12 px-0 py-3 text-paper-50 focus:outline-none focus:border-gold-100 transition-colors duration-300 font-light rounded-none"
-                    />
+
+                  <div className="space-y-2">
+                     <label htmlFor="subject" className="text-xs uppercase tracking-wider text-paper-50/40 font-medium">Sujet</label>
+                     <div className="relative">
+                        <select 
+                          id="subject" 
+                          className="w-full bg-ink-950/50 border border-stroke-12 rounded focus:border-gold-100 focus:outline-none p-3 text-paper-50 appearance-none transition-colors"
+                        >
+                          <option>Conseil Parfum</option>
+                          <option>Suivi de commande</option>
+                          <option>Partenariats</option>
+                          <option>Autre</option>
+                        </select>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-paper-50/40">↓</div>
+                     </div>
                   </div>
-                </div>
 
-                <div className="flex flex-col gap-3">
-                  <label htmlFor="subject" className="text-[10px] text-paper-50/60 uppercase tracking-[0.2em]">Sujet</label>
-                  <select 
-                    id="subject"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                    className="bg-transparent border-b border-stroke-12 px-0 py-3 text-paper-50 focus:outline-none focus:border-gold-100 transition-colors duration-300 font-light appearance-none rounded-none cursor-pointer"
-                  >
-                    <option value="general" className="bg-ink-950">Question générale</option>
-                    <option value="order" className="bg-ink-950">Suivi de commande</option>
-                    <option value="advice" className="bg-ink-950">Conseil olfactif</option>
-                    <option value="press" className="bg-ink-950">Presse & Partenariats</option>
-                  </select>
-                </div>
+                  <div className="space-y-2">
+                     <label htmlFor="message" className="text-xs uppercase tracking-wider text-paper-50/40 font-medium">Message</label>
+                     <textarea 
+                       required
+                       id="message" 
+                       rows={6}
+                       className="w-full bg-ink-950/50 border border-stroke-12 rounded focus:border-gold-100 focus:outline-none p-3 text-paper-50 transition-colors placeholder:text-paper-50/20 resize-none"
+                       placeholder="Comment pouvons-nous vous aider ?"
+                     />
+                  </div>
 
-                <div className="flex flex-col gap-3">
-                  <label htmlFor="message" className="text-[10px] text-paper-50/60 uppercase tracking-[0.2em]">Message</label>
-                  <textarea 
-                    id="message" 
-                    rows={6}
-                    required
-                    value={formData.message}
-                    onChange={(e) => setFormData({...formData, message: e.target.value})}
-                    className="bg-transparent border-b border-stroke-12 px-0 py-3 text-paper-50 focus:outline-none focus:border-gold-100 transition-colors duration-300 resize-none font-light rounded-none"
-                  ></textarea>
-                </div>
-
-                <div className="pt-8 flex items-center justify-between">
-                  <Button 
-                    type="submit" 
-                    disabled={status === 'submitting' || status === 'success'}
-                    className="md:w-auto w-full"
-                  >
-                    {status === 'submitting' ? 'Envoi en cours...' : 'Envoyer notre message'}
-                  </Button>
-
-                  {status === 'success' && (
-                    <motion.span 
-                      initial={{ opacity: 0, x: -10 }} 
-                      animate={{ opacity: 1, x: 0 }}
-                      className="text-gold-100 text-sm font-light flex items-center gap-2 tracking-wide"
-                    >
-                      ✓ Message envoyé
-                    </motion.span>
-                  )}
-                </div>
-              </form>
+                  <div className="pt-4">
+                     <Button 
+                        variant="primary" 
+                        className="w-full justify-center" 
+                        disabled={status === 'submitting'}
+                      >
+                       {status === 'submitting' ? 'Envoi en cours...' : 'Envoyer le message'}
+                     </Button>
+                  </div>
+                </form>
+              )}
             </div>
-          </ScrollReveal>
-        </div>
-      </div>
-    </div>
+          </div>
+        </ScrollReveal>
+      </section>
+    </main>
   )
 }
 
