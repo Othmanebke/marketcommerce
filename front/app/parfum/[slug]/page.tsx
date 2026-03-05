@@ -338,38 +338,37 @@ export default function PDPPage({ params }: { params: Promise<{ slug: string }> 
   const stock = stockLabel(selectedVariant.stockQty)
 
   async function handleAddToCart() {
+    if (selectedVariant.stockQty === 0 || addLoading) return
     setAddLoading(true)
-    
-    // Ajout réel au panier
+
     addItem({
-      variantId: `${product.slug}-${selectedVariant.id}`,
-      productSlug: product.slug,
-      productName: product.name,
+      variantId:     `${product.slug}-${selectedVariant.id}`,
+      productSlug:   product.slug,
+      productName:   product.name,
       concentration: product.concentration,
-      volumeMl: selectedVariant.volumeMl,
-      priceCents: selectedVariant.priceCents,
-      imageUrl: product.media[0].url
+      volumeMl:      selectedVariant.volumeMl,
+      priceCents:    selectedVariant.priceCents,
+      imageUrl:      product.media[0].url
     }, 1)
 
-    await new Promise(r => setTimeout(r, 600)) // Petit délai UX
-    
+    await new Promise(r => setTimeout(r, 600))
+
     setAddLoading(false)
     addToast(`${product.name} ajouté au panier.`, 'success')
-    
-    // Redirection vers le panier
-    router.push('/panier')
+    router.push('/cart')
   }
 
   return (
-    <main className="bg-ink-950 min-h-screen pb-24">
-      
+    <main className="bg-ink-950 min-h-screen pb-32 lg:pb-24">
+
       {/* ── Breadcrumb ── */}
       <div className="pt-24 px-6 md:px-12 max-w-7xl mx-auto">
-        <Link 
-          href="/collection" 
-          className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-paper-50/40 hover:text-gold-100 transition-colors"
+        <Link
+          href="/collection"
+          className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-paper-50/35 hover:text-gold-100 transition-colors duration-300 group"
         >
-          <span>←</span> Retour à la Collection
+          <span className="group-hover:-translate-x-1 transition-transform duration-300 inline-block">←</span>
+          Retour à la Collection
         </Link>
       </div>
 
@@ -379,15 +378,15 @@ export default function PDPPage({ params }: { params: Promise<{ slug: string }> 
         {/* ── LEFT — Gallery ── */}
         <div className="mb-12 lg:mb-0">
           <ScrollReveal>
-             {/* Main image */}
+            {/* Main image */}
             <div className="relative aspect-[4/5] overflow-hidden bg-ink-900 border border-stroke-12 mb-4 group cursor-crosshair">
               <AnimatePresence mode="popLayout" initial={false}>
                 <motion.div
                   key={activeImageIdx}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+                  initial={{ opacity: 0, scale: 1.02 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   className="absolute inset-0"
                 >
                   <Image
@@ -395,25 +394,37 @@ export default function PDPPage({ params }: { params: Promise<{ slug: string }> 
                     alt={product.media[activeImageIdx].alt}
                     fill
                     priority
-                    className="object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
+                    className="object-cover transition-transform duration-[2.5s] ease-out group-hover:scale-105"
                     sizes="(max-width: 1024px) 100vw, 55vw"
                   />
                 </motion.div>
               </AnimatePresence>
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-950/40 via-transparent to-transparent pointer-events-none" />
-              
+
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-ink-950/50 via-transparent to-transparent pointer-events-none" />
+              {/* Hover gold shimmer border */}
+              <div className="absolute inset-0 border border-transparent group-hover:border-gold-100/15 transition-colors duration-700 pointer-events-none" />
+
               {/* Badges */}
               {product.badges.length > 0 && (
                 <div className="absolute top-6 left-6 flex flex-col gap-2 z-10">
                   {product.badges.map(badge => (
                     <span
                       key={badge}
-                      className="px-3 py-1 text-[9px] uppercase tracking-widest bg-ink-950/40 backdrop-blur-md border border-paper-50/20 text-paper-50"
+                      className="px-3 py-1 text-[9px] uppercase tracking-widest bg-ink-950/60 backdrop-blur-md border border-paper-50/15 text-paper-50/80"
                     >
                       {badge}
                     </span>
                   ))}
+                </div>
+              )}
+
+              {/* Image counter */}
+              {product.media.length > 1 && (
+                <div className="absolute bottom-5 right-5 z-10">
+                  <span className="text-[9px] uppercase tracking-[0.3em] text-paper-50/30">
+                    {String(activeImageIdx + 1).padStart(2, '0')} / {String(product.media.length).padStart(2, '0')}
+                  </span>
                 </div>
               )}
             </div>
@@ -431,10 +442,10 @@ export default function PDPPage({ params }: { params: Promise<{ slug: string }> 
                     onClick={() => setActiveImageIdx(i)}
                     className={`
                       relative flex-shrink-0 w-20 aspect-square overflow-hidden
-                      border transition-all duration-300
+                      border transition-all duration-400
                       ${activeImageIdx === i
-                        ? 'border-gold-100 opacity-100'
-                        : 'border-transparent opacity-50 hover:opacity-80'
+                        ? 'border-gold-100 opacity-100 scale-100'
+                        : 'border-transparent opacity-40 hover:opacity-70 scale-95 hover:scale-100'
                       }
                     `}
                   >
@@ -451,23 +462,39 @@ export default function PDPPage({ params }: { params: Promise<{ slug: string }> 
         </div>
 
         {/* ── RIGHT — Info panel ── */}
-        <div className="flex flex-col gap-10 lg:pt-4 lg:sticky lg:top-32">
+        <div className="flex flex-col gap-8 lg:pt-4 lg:sticky lg:top-28">
 
-          {/* Block 1 — Titre */}
+          {/* Block 1 — Identity */}
           <ScrollReveal delay={0.1}>
             <div>
-              <p className="text-[10px] text-gold-100 uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
-                Maison <span className="w-1 h-1 rounded-full bg-gold-100/50" /> {product.family}
-              </p>
-              <h1 className="font-serif text-5xl md:text-6xl text-paper-50 mb-4 tracking-tight leading-[0.9]">
+              <div className="flex items-center gap-3 mb-5">
+                <p className="text-[9px] text-gold-100 uppercase tracking-[0.35em]">Maison</p>
+                <span className="w-1 h-1 rounded-full bg-gold-100/50" />
+                <p className="text-[9px] text-gold-100/60 uppercase tracking-[0.35em]">{product.family}</p>
+              </div>
+              <h1 className="font-serif text-5xl md:text-6xl text-paper-50 mb-3 tracking-tight leading-[0.92]">
                 {product.name}
               </h1>
-              <p className="text-xl text-paper-50/60 mb-8 font-light italic font-serif">
+              <p className="text-lg text-paper-50/50 mb-7 font-light italic font-serif">
                 {product.concentration}
               </p>
-              <p className="text-sm md:text-base text-paper-50/80 leading-relaxed font-light max-w-lg">
+              <p className="text-[15px] text-paper-50/75 leading-relaxed font-light max-w-lg">
                 {product.descriptionEditorial}
               </p>
+
+              {/* Seasons & Moments */}
+              <div className="mt-6 flex flex-wrap gap-2">
+                {product.seasons.map(s => (
+                  <span key={s} className="px-3 py-1 text-[9px] uppercase tracking-[0.25em] border border-stroke-12 text-paper-50/35">
+                    {s}
+                  </span>
+                ))}
+                {product.moments.map(m => (
+                  <span key={m} className="px-3 py-1 text-[9px] uppercase tracking-[0.25em] border border-gold-100/15 text-gold-100/50">
+                    {m}
+                  </span>
+                ))}
+              </div>
             </div>
           </ScrollReveal>
 
@@ -476,47 +503,56 @@ export default function PDPPage({ params }: { params: Promise<{ slug: string }> 
           {/* Block 2 — Variants & Price */}
           <ScrollReveal delay={0.2}>
             <div className="space-y-6">
-              <div className="flex flex-wrap gap-3" role="radiogroup" aria-label="Sélectionner un volume">
-                {product.variants.map(v => (
-                  <button
-                    key={v.id}
-                    type="button"
-                    role="radio"
-                    aria-checked={selectedVariant.id === v.id}
-                    disabled={v.stockQty === 0}
-                    onClick={() => setSelectedVariant(v)}
-                    className={`
-                      min-w-[4rem] px-5 py-3 text-xs uppercase tracking-wider transition-all duration-300
-                      border
-                      ${selectedVariant.id === v.id
-                        ? 'bg-gold-100 text-ink-950 border-gold-100 font-medium'
-                        : 'bg-transparent text-paper-50/60 border-stroke-12 hover:border-paper-50/30'
-                      }
-                      disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-stroke-12
-                    `}
-                  >
-                    {v.volumeMl}ml
-                  </button>
-                ))}
+              <div>
+                <p className="text-[9px] uppercase tracking-[0.3em] text-paper-50/30 mb-3">Volume</p>
+                <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Sélectionner un volume">
+                  {product.variants.map(v => (
+                    <button
+                      key={v.id}
+                      type="button"
+                      role="radio"
+                      aria-checked={selectedVariant.id === v.id}
+                      disabled={v.stockQty === 0}
+                      onClick={() => setSelectedVariant(v)}
+                      className={`
+                        relative min-w-[5rem] px-4 py-3 text-[10px] uppercase tracking-wider transition-all duration-300
+                        border
+                        ${selectedVariant.id === v.id
+                          ? 'bg-gold-100 text-ink-950 border-gold-100 font-semibold shadow-[0_0_20px_rgba(214,181,109,0.25)]'
+                          : 'bg-transparent text-paper-50/55 border-stroke-12 hover:border-paper-50/25 hover:text-paper-50'
+                        }
+                        disabled:opacity-25 disabled:cursor-not-allowed
+                      `}
+                    >
+                      {v.volumeMl}ml
+                      {v.stockQty === 0 && (
+                        <span className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-[8px] text-paper-50/30 uppercase tracking-widest">Épuisé</span>
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5">
                 <div>
-                  <p className="font-serif text-3xl text-paper-50">
+                  <p className="font-serif text-4xl text-paper-50 tracking-tight">
                     {formatPrice(selectedVariant.priceCents)}
                   </p>
-                  <p className={`text-[10px] uppercase tracking-widest mt-1 ${stock.color}`}>
+                  <p className={`text-[10px] uppercase tracking-widest mt-1.5 flex items-center gap-1.5 ${stock.color}`}>
+                    <span className={`w-1.5 h-1.5 rounded-full bg-current`} />
                     {stock.label}
                   </p>
                 </div>
 
                 <Button
                   variant="primary"
-                  className="px-10 py-4 text-xs tracking-[0.25em] w-full sm:w-auto"
+                  className="px-8 py-4 text-[10px] tracking-[0.3em] w-full sm:w-auto"
                   disabled={selectedVariant.stockQty === 0 || addLoading}
                   onClick={handleAddToCart}
                 >
-                  {addLoading ? 'Ajout...' : 'Ajouter au panier'}
+                  {addLoading ? '✓ Ajouté...' : 'Ajouter au panier'}
                 </Button>
               </div>
             </div>
@@ -524,20 +560,39 @@ export default function PDPPage({ params }: { params: Promise<{ slug: string }> 
 
           <DividerGoldHairline />
 
-          {/* Block 3 — Details (Accordion & Metrics) */}
+          {/* Block 3 — Olfactory pyramid + Metrics + Accordion */}
           <ScrollReveal delay={0.3}>
             <div className="space-y-8">
-              {/* Pyramid Olfactive */}
-              <div className="space-y-4">
-                <p className="text-[10px] text-paper-50/40 uppercase tracking-[0.2em] mb-4">
+
+              {/* Pyramid Olfactive — enhanced */}
+              <div>
+                <p className="text-[9px] uppercase tracking-[0.3em] text-paper-50/30 mb-5">
                   Pyramide Olfactive
                 </p>
-                <PyramidRow label="Tête" notes={product.notes.top} />
-                <PyramidRow label="Cœur" notes={product.notes.heart} />
-                <PyramidRow label="Fond" notes={product.notes.base} />
+                <div className="space-y-5">
+                  {[
+                    { label: 'Tête',  notes: product.notes.top,   accent: 'text-paper-50/50', line: 'bg-paper-50/15' },
+                    { label: 'Cœur', notes: product.notes.heart, accent: 'text-gold-100/70', line: 'bg-gold-100/20' },
+                    { label: 'Fond',  notes: product.notes.base,  accent: 'text-gold-100/40', line: 'bg-gold-100/10' },
+                  ].map(({ label, notes, accent, line }) => (
+                    <div key={label} className="flex gap-4 items-start">
+                      <div className="flex flex-col items-center pt-1 gap-1 shrink-0">
+                        <span className={`text-[8px] uppercase tracking-[0.3em] ${accent} w-8 text-center`}>{label}</span>
+                        <div className={`w-px h-6 ${line}`} />
+                      </div>
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">
+                        {notes.map(n => (
+                          <Chip key={n.name} size="sm" selected={false}>
+                            {n.name}
+                          </Chip>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              <div className="py-6 border-b border-stroke-12">
+              <div className="py-5 border-y border-stroke-12">
                 <MetricsBars
                   intensity={product.intensity}
                   tenue={product.tenue}
@@ -554,15 +609,18 @@ export default function PDPPage({ params }: { params: Promise<{ slug: string }> 
 
       {/* ── Similar Products ── */}
       {product.similar.length > 0 && (
-        <section className="border-t border-stroke-12 mt-24 py-24 px-6 md:px-12 bg-ink-900/30">
+        <section className="border-t border-stroke-12 mt-24 py-24 px-6 md:px-12">
           <div className="max-w-7xl mx-auto">
             <ScrollReveal>
-              <h2 className="font-serif text-3xl text-paper-50 mb-12 text-center">
-                Vous aimerez aussi
-              </h2>
+              <div className="text-center mb-14">
+                <p className="text-[9px] uppercase tracking-[0.4em] text-gold-100 mb-4">Continuez</p>
+                <h2 className="font-serif text-3xl text-paper-50">
+                  Vous aimerez aussi
+                </h2>
+              </div>
             </ScrollReveal>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {product.similar.map((sim, idx) => (
                 <ScrollReveal key={sim.slug} delay={idx * 0.1}>
                   <ProductCard product={sim} />
@@ -572,6 +630,36 @@ export default function PDPPage({ params }: { params: Promise<{ slug: string }> 
           </div>
         </section>
       )}
+
+      {/* ── Sticky bottom bar — mobile only ── */}
+      <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden sticky-panel bg-ink-950/95 backdrop-blur-xl border-t border-stroke-12">
+        <div className="px-5 py-4 flex items-center justify-between gap-4">
+          <div className="min-w-0">
+            <p className="font-serif text-lg text-paper-50 truncate">{product.name}</p>
+            <p className="text-[10px] text-paper-50/45 uppercase tracking-[0.2em]">
+              {formatPrice(selectedVariant.priceCents)} · {selectedVariant.volumeMl}ml
+            </p>
+          </div>
+          <button
+            type="button"
+            disabled={selectedVariant.stockQty === 0 || addLoading}
+            onClick={handleAddToCart}
+            className={`
+              shrink-0 px-7 py-3
+              text-[10px] uppercase tracking-[0.3em] font-medium
+              transition-all duration-400
+              ${selectedVariant.stockQty === 0
+                ? 'bg-stroke-12 text-paper-50/25 cursor-not-allowed'
+                : addLoading
+                  ? 'bg-gold-100/20 text-gold-100/50'
+                  : 'bg-gold-100 text-ink-950 hover:bg-paper-50'
+              }
+            `}
+          >
+            {addLoading ? '✓' : selectedVariant.stockQty === 0 ? 'Épuisé' : 'Ajouter'}
+          </button>
+        </div>
+      </div>
     </main>
   )
 }

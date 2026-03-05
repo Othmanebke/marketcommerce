@@ -20,12 +20,18 @@ interface NavbarProps {
 }
 
 export default function Navbar({ onCartOpen, onSearchOpen }: NavbarProps) {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
-  const { totalQty }            = useCart()
+  const [scrolled,  setScrolled]  = useState(false)
+  const [menuOpen,  setMenuOpen]  = useState(false)
+  const [progress,  setProgress]  = useState(0)
+  const { totalQty }              = useCart()
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 50)
+    const handler = () => {
+      const scrollTop  = window.scrollY
+      const docHeight  = document.documentElement.scrollHeight - window.innerHeight
+      setScrolled(scrollTop > 50)
+      setProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0)
+    }
     window.addEventListener('scroll', handler, { passive: true })
     return () => window.removeEventListener('scroll', handler)
   }, [])
@@ -35,6 +41,12 @@ export default function Navbar({ onCartOpen, onSearchOpen }: NavbarProps) {
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
   }, [])
+
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
 
   return (
     <>
@@ -47,13 +59,20 @@ export default function Navbar({ onCartOpen, onSearchOpen }: NavbarProps) {
           fixed top-0 left-0 right-0 z-50
           transition-all duration-700
           ${scrolled
-            ? 'bg-ink-950/92 backdrop-blur-xl border-b border-stroke-12'
+            ? 'bg-ink-950/94 backdrop-blur-xl border-b border-stroke-12'
             : 'bg-transparent'
           }
         `}
       >
-        {/* Gold hairline — always at very top */}
+        {/* ── Gold hairline top ── */}
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-100/20 to-transparent" />
+
+        {/* ── Scroll progress bar ── */}
+        <div
+          className="absolute bottom-0 left-0 h-[1.5px] bg-gradient-to-r from-gold-100/80 via-yellow-200/80 to-gold-100/80 transition-all duration-75 origin-left"
+          style={{ width: `${progress}%` }}
+          aria-hidden="true"
+        />
 
         <nav
           aria-label="Navigation principale"
@@ -198,8 +217,16 @@ export default function Navbar({ onCartOpen, onSearchOpen }: NavbarProps) {
             aria-modal="true"
             className="fixed inset-0 z-40 md:hidden bg-ink-950 flex flex-col"
           >
+            {/* Grain overlay */}
+            <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+              style={{
+                backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")",
+                backgroundSize: '200px 200px',
+              }}
+            />
+
             {/* Top bar in menu */}
-            <div className="h-[72px] flex items-center justify-between px-8 border-b border-stroke-12">
+            <div className="h-[72px] flex items-center justify-between px-8 border-b border-stroke-12 relative z-10">
               <Link
                 href="/"
                 onClick={() => setMenuOpen(false)}
@@ -218,7 +245,7 @@ export default function Navbar({ onCartOpen, onSearchOpen }: NavbarProps) {
             </div>
 
             {/* Links */}
-            <nav className="flex-1 flex flex-col items-start justify-center px-10 gap-1">
+            <nav className="flex-1 flex flex-col items-start justify-center px-10 gap-1 relative z-10">
               {[...leftLinks, ...rightLinks].map((link, i) => (
                 <motion.div
                   key={link.href}
@@ -263,7 +290,7 @@ export default function Navbar({ onCartOpen, onSearchOpen }: NavbarProps) {
             </nav>
 
             {/* Bottom */}
-            <div className="px-10 py-8 border-t border-stroke-12">
+            <div className="px-10 py-8 border-t border-stroke-12 relative z-10">
               <p className="text-[8px] uppercase tracking-[0.35em] text-paper-50/20">
                 Parfumerie de création — France
               </p>

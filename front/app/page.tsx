@@ -26,6 +26,7 @@ const UNIVERS = [
     note:    '01',
     href:    '/collection?vibe=noir-velours',
     image:   'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=1400&q=85',
+    accent:  '#1a0d05',
   },
   {
     id:      'or',
@@ -34,6 +35,7 @@ const UNIVERS = [
     note:    '02',
     href:    '/collection?vibe=or-solaire',
     image:   'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&q=80',
+    accent:  '#1a1305',
   },
   {
     id:      'bleu',
@@ -42,6 +44,7 @@ const UNIVERS = [
     note:    '03',
     href:    '/collection?vibe=bleu-mineral',
     image:   'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800&q=80',
+    accent:  '#050a1a',
   },
 ]
 
@@ -55,6 +58,33 @@ const SAVOIR_FAIRE = [
   { num: '100 %', label: 'Naturel', desc: 'Essences et absolues sélectionnées avec rigueur' },
   { num: '8',     label: 'Semaines', desc: 'De macération lente pour chaque création' },
   { num: '0',     label: 'Compromis', desc: 'Sur la qualité des matières premières' },
+]
+
+const PROCESSUS = [
+  {
+    num:   '01',
+    title: 'Sélection',
+    desc:  'Des absolues rares, sourçées directement des producteurs pour garantir authenticité et traçabilité totale de chaque matière.',
+    icon:  '◈',
+  },
+  {
+    num:   '02',
+    title: 'Macération',
+    desc:  '8 semaines minimum d\'infusion lente permettent aux matières premières de révéler toute leur complexité et profondeur.',
+    icon:  '◇',
+  },
+  {
+    num:   '03',
+    title: 'Composition',
+    desc:  'Le nez compose, ajuste, recompose — jusqu\'à ce que l\'accord soit parfait et l\'harmonie absolue.',
+    icon:  '○',
+  },
+  {
+    num:   '04',
+    title: 'Embouteillage',
+    desc:  'Chaque flacon est rempli à la main, inspecté, scellé dans notre atelier français avec soin et rigueur.',
+    icon:  '◻',
+  },
 ]
 
 export default function HomePage() {
@@ -78,7 +108,7 @@ export default function HomePage() {
               group inline-flex items-center gap-3
               text-[10px] uppercase tracking-[0.4em] text-ink-950 font-medium
               bg-paper-50 hover:bg-gold-100
-              px-8 py-4 transition-colors duration-500
+              px-8 py-4 transition-colors duration-500 shine-on-hover
             "
           >
             Explorer la Collection
@@ -113,8 +143,13 @@ export default function HomePage() {
         {/* Vertical decorative line */}
         <div className="absolute top-0 left-1/2 w-px h-20 bg-gradient-to-b from-stroke-12 to-gold-100/40" />
 
+        {/* Subtle radial glow */}
+        <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+          <div className="orb-gold" />
+        </div>
+
         <ScrollReveal type="fade-up" duration={1.2}>
-          <div className="max-w-5xl mx-auto text-center">
+          <div className="max-w-5xl mx-auto text-center relative z-10">
             <p className="text-[9px] uppercase tracking-[0.45em] text-gold-100 mb-10">
               Notre Philosophie
             </p>
@@ -123,7 +158,6 @@ export default function HomePage() {
               <br className="hidden md:block" />
               <span className="text-paper-50/35 italic">&ensp;Il est fait pour&ensp;</span>
               <span
-                className="text-gradient-gold"
                 style={{
                   background: 'linear-gradient(135deg, #C9A85C 0%, #D6B56D 40%, #EDD992 70%, #D6B56D 100%)',
                   WebkitBackgroundClip: 'text',
@@ -140,6 +174,13 @@ export default function HomePage() {
               et des essences précieuses. Chaque flacon est une promesse d'intensité — un voile
               de mystère qui vous habille longtemps après votre départ.
             </p>
+
+            {/* Decorative ornament */}
+            <div className="mt-16 flex items-center justify-center gap-4">
+              <div className="h-px w-16 bg-gradient-to-r from-transparent to-gold-100/40" />
+              <span className="text-gold-100/40 text-xs">◈</span>
+              <div className="h-px w-16 bg-gradient-to-l from-transparent to-gold-100/40" />
+            </div>
           </div>
         </ScrollReveal>
       </section>
@@ -192,6 +233,7 @@ export default function HomePage() {
                     className="object-cover transition-transform duration-[2.5s] ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-950/95 via-ink-950/30 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-ink-950/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
                   {/* Number watermark */}
                   <span className="absolute top-6 right-8 font-serif text-[80px] leading-none text-paper-50/[0.06] select-none pointer-events-none font-bold">
@@ -204,8 +246,8 @@ export default function HomePage() {
                       {UNIVERS[0].label}
                     </h3>
                     <p className="text-paper-50/55 text-sm font-light">{UNIVERS[0].tagline}</p>
-                    <div className="mt-5 flex items-center gap-2 text-[9px] uppercase tracking-[0.35em] text-paper-50/0 group-hover:text-gold-100/80 transition-colors duration-700">
-                      <span className="w-6 h-px bg-gold-100/60" />
+                    <div className="mt-5 flex items-center gap-2 text-[9px] uppercase tracking-[0.35em] text-paper-50/0 group-hover:text-gold-100/80 transition-all duration-700">
+                      <span className="w-0 group-hover:w-6 h-px bg-gold-100/60 transition-all duration-700" />
                       Explorer
                     </div>
                   </div>
@@ -250,19 +292,75 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════
           SAVOIR-FAIRE — Chiffres clés
       ════════════════════════════════════════════ */}
-      <section className="py-32 px-8 border-b border-stroke-12">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-32 px-8 border-b border-stroke-12 relative overflow-hidden">
+        {/* Background dot pattern */}
+        <div className="absolute inset-0 bg-dots opacity-30 pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto relative z-10">
           <ScrollReveal type="fade-up">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x divide-stroke-12">
               {SAVOIR_FAIRE.map(({ num, label, desc }, i) => (
-                <div key={i} className="px-8 md:px-16 py-10 md:py-0 first:pl-0 last:pr-0 text-center md:text-left">
-                  <p className="font-serif text-[clamp(3rem,5vw,4.5rem)] text-gold-100 leading-none mb-3">{num}</p>
+                <div key={i} className="px-8 md:px-16 py-10 md:py-0 first:pl-0 last:pr-0 text-center md:text-left group">
+                  <p
+                    className="font-serif text-[clamp(3rem,5vw,4.5rem)] leading-none mb-3 text-gradient-gold"
+                    style={{
+                      background: 'linear-gradient(135deg, #C9A85C 0%, #D6B56D 40%, #EDD992 70%, #D6B56D 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                    }}
+                  >
+                    {num}
+                  </p>
                   <p className="text-[10px] uppercase tracking-[0.35em] text-paper-50 mb-2">{label}</p>
                   <p className="text-paper-50/35 text-sm font-light leading-relaxed">{desc}</p>
                 </div>
               ))}
             </div>
           </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════
+          PROCESSUS — 4 étapes de création
+      ════════════════════════════════════════════ */}
+      <section className="py-32 px-8 bg-ink-900/50 border-b border-stroke-12 relative overflow-hidden">
+        {/* Large decorative number */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none overflow-hidden" aria-hidden="true">
+          <span className="section-num" style={{ right: '-2rem', position: 'relative' }}>02</span>
+        </div>
+
+        <div className="max-w-7xl mx-auto">
+          <ScrollReveal type="fade-up">
+            <div className="text-center mb-20">
+              <p className="text-[9px] uppercase tracking-[0.45em] text-gold-100 mb-5">Savoir-Faire</p>
+              <h2 className="font-serif text-[clamp(2.5rem,5vw,4rem)] text-paper-50 leading-tight">
+                L'Art de la<br /><span className="italic text-paper-50/50">Composition</span>
+              </h2>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-stroke-12">
+            {PROCESSUS.map((step, i) => (
+              <ScrollReveal key={step.num} type="fade-up" delay={i * 0.1}>
+                <div className="px-8 py-10 lg:py-0 relative group cursor-default process-step">
+                  {/* Hover top line */}
+                  <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-gold-100/0 to-transparent group-hover:via-gold-100/60 transition-all duration-700" />
+
+                  <p className="text-gold-100/40 text-3xl mb-5 group-hover:text-gold-100/70 transition-colors duration-500">
+                    {step.icon}
+                  </p>
+                  <p className="text-[9px] uppercase tracking-[0.4em] text-gold-100/60 mb-3">{step.num}</p>
+                  <h3 className="font-serif text-xl text-paper-50 mb-3 group-hover:text-gold-100 transition-colors duration-500">
+                    {step.title}
+                  </h3>
+                  <p className="text-paper-50/35 text-[13px] leading-relaxed font-light">
+                    {step.desc}
+                  </p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -333,6 +431,19 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════════════════════════════════
+          MARQUEE 2 — reversed, tonal
+      ════════════════════════════════════════════ */}
+      <div className="border-y border-stroke-12 overflow-hidden bg-ink-900/30">
+        <MarqueeStrip speed="slow" reverse className="py-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <span key={i} className="text-[9px] uppercase tracking-[0.3em] text-paper-50/15 px-10">
+              — Noir Velours — Bleu Minéral — Or Solaire — Iris Blanc — Rose Oud — Cuir Fumé — Santal Crème
+            </span>
+          ))}
+        </MarqueeStrip>
+      </div>
+
+      {/* ════════════════════════════════════════════
           JOURNAL ÉDITORIAL
       ════════════════════════════════════════════ */}
       <section className="py-32 px-8 bg-ink-900 border-t border-stroke-12">
@@ -369,7 +480,8 @@ export default function HomePage() {
                       className="object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
                       priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-ink-950/60 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink-950/70 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-ink-950/0 group-hover:bg-ink-950/10 transition-colors duration-700" />
                     <div className="absolute top-4 left-4">
                       <span className="px-3 py-1.5 border border-paper-50/20 bg-ink-950/50 backdrop-blur-md text-[8px] uppercase tracking-[0.3em] text-gold-100">
                         {JOURNAL_POSTS[0].tag}
@@ -382,6 +494,10 @@ export default function HomePage() {
                   <p className="text-paper-50/45 text-sm leading-relaxed font-light line-clamp-2">
                     {JOURNAL_POSTS[0].excerpt}
                   </p>
+                  <div className="mt-4 flex items-center gap-2 text-[9px] uppercase tracking-[0.35em] text-gold-100/0 group-hover:text-gold-100/80 transition-colors duration-500">
+                    <span className="w-4 h-px bg-current" />
+                    Lire l'article
+                  </div>
                 </Link>
               </ScrollReveal>
             </div>
@@ -396,8 +512,9 @@ export default function HomePage() {
                         src={post.image}
                         alt={post.title}
                         fill
-                        className="object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
+                        className="object-cover transition-transform duration-[2s] ease-out group-hover:scale-110"
                       />
+                      <div className="absolute inset-0 bg-ink-950/0 group-hover:bg-ink-950/10 transition-colors duration-500" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <span className="text-[8px] uppercase tracking-[0.3em] text-gold-100/70 block mb-2">
@@ -416,12 +533,15 @@ export default function HomePage() {
 
               {/* Newsletter teaser */}
               <ScrollReveal type="fade-up" delay={0.3}>
-                <div className="border border-stroke-12 p-6 mt-2 flex flex-col gap-4">
-                  <p className="text-[9px] uppercase tracking-[0.35em] text-gold-100">Newsletter</p>
-                  <p className="font-serif text-xl text-paper-50 leading-tight">
+                <div className="border border-stroke-12 p-6 mt-2 flex flex-col gap-4 relative overflow-hidden group hover:border-gold-100/20 transition-colors duration-500">
+                  {/* Hover glow */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-gold-100/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+                  <p className="text-[9px] uppercase tracking-[0.35em] text-gold-100 relative z-10">Newsletter</p>
+                  <p className="font-serif text-xl text-paper-50 leading-tight relative z-10">
                     Recevez nos créations en avant-première
                   </p>
-                  <form className="flex gap-0 border border-stroke-12 overflow-hidden">
+                  <form className="flex gap-0 border border-stroke-12 overflow-hidden hover:border-gold-100/20 transition-colors duration-500 relative z-10">
                     <input
                       type="email"
                       placeholder="Votre adresse email"
@@ -442,11 +562,40 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════════════════════════════════
+          QUOTE INTERLUDE — Grand typographique
+      ════════════════════════════════════════════ */}
+      <section className="py-24 px-8 relative overflow-hidden border-t border-stroke-12">
+        <div className="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-900/20 to-ink-950 pointer-events-none" />
+        <div className="max-w-5xl mx-auto text-center relative z-10">
+          <ScrollReveal type="scale-up" duration={1.4}>
+            <blockquote>
+              <p className="font-serif text-[clamp(1.5rem,3.5vw,3rem)] text-paper-50/70 leading-relaxed italic font-light">
+                "Un parfum bien choisi est comme une seconde peau —
+                <span className="text-gold-100"> il révèle ce que les mots ne peuvent exprimer."</span>
+              </p>
+              <footer className="mt-8">
+                <p className="text-[9px] uppercase tracking-[0.45em] text-paper-50/25">
+                  — La Maison, Manifeste
+                </p>
+              </footer>
+            </blockquote>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════
           BOTTOM CTA — Full width editorial
       ════════════════════════════════════════════ */}
       <section className="py-40 px-8 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-ink-900 to-ink-950" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-100/20 to-transparent" />
+
+        {/* Decorative orb */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-[800px] h-[800px] rounded-full bg-radial-gold opacity-50"
+            style={{ background: 'radial-gradient(circle, rgba(214,181,109,0.04) 0%, transparent 70%)' }}
+          />
+        </div>
 
         <ScrollReveal type="fade-up" className="relative z-10">
           <p className="text-[9px] uppercase tracking-[0.45em] text-gold-100 mb-8">Commencez</p>
@@ -456,19 +605,31 @@ export default function HomePage() {
           <p className="text-paper-50/40 text-[14px] font-light mb-12 max-w-md mx-auto leading-relaxed">
             Chaque fragrance est un portrait. Lequel parle de vous ?
           </p>
-          <Link
-            href="/collection"
-            className="
-              group inline-flex items-center gap-4
-              px-10 py-5 border border-stroke-18
-              text-[10px] uppercase tracking-[0.45em] text-paper-50
-              hover:border-gold-100/40 hover:text-gold-100
-              transition-all duration-600
-            "
-          >
-            Découvrir la Collection
-            <span className="group-hover:translate-x-1.5 transition-transform duration-400 inline-block">→</span>
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+            <Link
+              href="/collection"
+              className="
+                group inline-flex items-center gap-4
+                px-10 py-5 bg-gold-100/10 border border-gold-100/20
+                text-[10px] uppercase tracking-[0.45em] text-gold-100
+                hover:bg-gold-100 hover:text-ink-950 hover:border-gold-100
+                transition-all duration-500 shine-on-hover
+              "
+            >
+              Découvrir la Collection
+              <span className="group-hover:translate-x-1.5 transition-transform duration-400 inline-block">→</span>
+            </Link>
+            <Link
+              href="/contact"
+              className="
+                text-[9px] uppercase tracking-[0.35em] text-paper-50/35
+                hover:text-gold-100 transition-colors duration-500
+                border-b border-transparent hover:border-gold-100/30 pb-px
+              "
+            >
+              Conseil personnalisé
+            </Link>
+          </div>
         </ScrollReveal>
       </section>
     </div>
